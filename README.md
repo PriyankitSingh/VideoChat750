@@ -16,3 +16,5 @@ Anonymous commit messages:
 In your project directory:
  - git config --local user.name "randomId" 
  - git config --local user.email "noemail@example.com"
+
+ 
