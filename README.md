@@ -19,3 +19,6 @@ In your project directory:
  
 GitLab URL:
  - http://cerczeiprd01.its.auckland.ac.nz/
+ 
+Google Docs:
+ - https://drive.google.com/drive/folders/0Bwkj6-wqpkl0Mk13Ry04ZlkwcGc
