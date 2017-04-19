@@ -66,8 +66,50 @@
   function testAPI() {
     console.log('Welcome!  Fetching your information.... ');
     FB.api('/me', function(response) {
-      console.log('Successful login for: ' + response.name);
+      var container = document.getElementById('friends-container');
+      var userElement = document.createElement("div");     
+      userElement.innerHTML = "<b>" + response.name + "</b>";
+      userElement.addEventListener('click', function(event){
+        // Call the user from here
+        console.log('Calling: ' + response.name);
+      });
+      container.appendChild(userElement);
+      
+      console.log(response);
       document.getElementById('status').innerHTML =
         'Thanks for logging in, ' + response.name + '!';
     });
+
+    console.log('Checking permissions');
+    FB.api('/me/permissions', function(response){
+      console.log(response);
+    });
+
+    // fetch friends
+    console.log('Fetching your friends');
+    FB.api('/me/friends', function(response){
+      if (response && !response.error) {
+        var friends = response.data.sort(sortMethod);
+        console.log('got a response. Number of friends: ' + friends.length);
+        var container = document.getElementById('friends-container');
+        for (var i=0; i<friends.length; i++){
+          console.log(friends[i].id + " " + friends[i].name);
+          var friendElement = document.createElement("div");
+          friendElement.innerHTML = "<b>" + friends[i].name + "</b>";
+          userElement.addEventListener('click', function(event){
+        // Call the user from here
+        console.log('Calling: ' + friends[i].name);
+      });
+          container.appendChild(friendElement);
+        }
+      } else {
+        console.log('got no response');
+      }
+    });
+  }
+
+  function sortMethod(a, b) {
+    var x = a.name.toLowerCase();
+    var y = b.name.toLowerCase();
+    return ((x < y) ? -1 : ((x > y) ? 1 : 0));
   }
