@@ -3,9 +3,9 @@
   * Facebook's code has not been changed.
   */
   // global variables
-  userName = null;
-  callee = null;
-
+  var userName = null;
+  var callee = null;
+  var phone = null;
   // This is called with the results from from FB.getLoginStatus().
   function statusChangeCallback(response) {
     console.log('statusChangeCallback');
@@ -17,6 +17,8 @@
     if (response.status === 'connected') {
       // Logged into your app and Facebook.
       testAPI();
+      // log into pubnub
+      loginPubnub();
     } else {
       // The person is not logged into your app or we are unable to tell.
       document.getElementById('status').innerHTML = 'Please log ' +
@@ -80,8 +82,13 @@
       var userElement = document.createElement("div");  
       userElement.innerHTML = "<b>" + response.name + "</b>";
       userElement.addEventListener('click', function(event){
+        // TODO: Just for testing
         // Call the user from here
-        console.log('Calling: ' + response.name);
+        friendNumber = response.name;
+        console.log('Calling: ' + friendNumber);
+        startLocalStream();
+        console.log('makeCallFacebook(friendNumber);');
+        
       });
       container.appendChild(userElement);
       
@@ -90,10 +97,10 @@
         'Thanks for logging in, ' + response.name + '!';
     });
 
-    console.log('Checking permissions');
-    FB.api('/me/permissions', function(response){
-      console.log(response);
-    });
+    // console.log('Checking permissions');
+    // FB.api('/me/permissions', function(response){
+    //   console.log(response);
+    // });
 
     // fetch friends (only gets people who have signed up for this application)
     console.log('Fetching your friends');
@@ -109,7 +116,10 @@
           friendElement.innerHTML = "<b>" + friends[i].name + "</b>";
           userElement.addEventListener('click', function(event){
             // Call the user from here
-            console.log('Calling: ' + friends[i].name);
+            friendNumber = friends[i].name;
+            console.log('Calling: ' + friendNumber);
+            startLocalStream();
+            makeCallFacebook(friendNumber)
           });
           container.appendChild(friendElement);
         }
@@ -118,6 +128,62 @@
       }
     });
   }
+
+var video_out = document.getElementById("vid-box");
+var vid_thumb = document.getElementById("vid-thumb");
+var vidCount = 0;
+
+function loginPubnub(){
+  console.log('Logging in using PubNub');
+
+  FB.api('/me', function(response) {
+    if (response && !response.error){
+      userName = response.name;
+
+      phone = window.phone = PHONE({
+        number        : userName || "Anonymous", 
+        publish_key   : 'pub-c-561a7378-fa06-4c50-a331-5c0056d0163c', // Your Pub Key
+        subscribe_key : 'sub-c-17b7db8a-3915-11e4-9868-02ee2ddab7fe', // Your Sub Key
+        //publish_key   : 'pub-c-4972d566-854b-41ef-9f97-25d40f968e28',
+        //subscribe_key : 'sub-c-0369f0f0-0bc7-11e7-9734-02ee2ddab7fe',
+      }); 
+      
+      startLocalStream();
+    }
+  });
+}  
+
+var localStreamOn = false;
+
+// Sets up the controller for the communication system and starts a video stream.
+function startLocalStream(){
+  if(localStreamOn){ // check if this setup has already been done
+    console.log('local stream already on');
+    return;
+  } else {
+    localStreamOn = true;
+  }
+
+  var ctrl = window.ctrl = CONTROLLER(phone, get_xirsys_servers);
+  ctrl.ready(function(){
+    // removed the form stuff
+    ctrl.addLocalStream(vid_thumb);
+    addLog("Logged in as " + userName); 
+  });
+  ctrl.receive(function(session){
+    session.connected(function(session){ video_out.appendChild(session.video); addLog(session.number + " has joined."); vidCount++; });
+    session.ended(function(session) { ctrl.getVideoElement(session.number).remove(); addLog(session.number + " has left.");    vidCount--;});
+  });
+  ctrl.videoToggled(function(session, isEnabled){
+    ctrl.getVideoElement(session.number).toggle(isEnabled);
+    addLog(session.number+": video enabled - " + isEnabled);
+  });
+  ctrl.audioToggled(function(session, isEnabled){
+    ctrl.getVideoElement(session.number).css("opacity",isEnabled ? 1 : 0.75);
+    addLog(session.number+": audio enabled - " + isEnabled);
+  });
+  return false;
+}
 
   // a generic method used for sorting the list of friends in alphabetical order.
   function sortMethod(a, b) {
