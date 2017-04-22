@@ -7,6 +7,7 @@
 <body>
 <div id="vid-box"></div>
 <div id="vid-thumb"></div>
+<div id="fail_message"></div>
 
 <form name="loginForm" id="login" action="#" onsubmit="return login(this);">
     <input type="text" name="username" id="username" placeholder="Pick a username!" />
@@ -16,6 +17,12 @@
 <form name="callForm" id="call" action="#" onsubmit="return makeCall(this);">
 	<input type="text" name="number" placeholder="Enter user to dial!" />
 	<input type="submit" value="Call"/>
+</form>
+
+<!-- This is for testing, might replace with something else later -->
+<form name="TestBandwidth" id="bandwidthForm" action ="#" onsubmit="setBandwidth(this)">
+    <input type="text" name="bandwidth" id= "bandwidth" value="250"> kbps
+    <input type="submit" value="Set bandwidth" >
 </form>
 
 <div id="inCall"> <!-- Buttons for in call features -->
