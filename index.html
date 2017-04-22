@@ -5,10 +5,10 @@
 
 
 <body>
-<div id="vid-box"></div>
-<div id="vid-thumb"></div>
+<div id="vid-box" style="text-align:center;"></div>
+<div id="vid-thumb" style="text-align:center;"></div>
+<div id= "image"></div>
 <div id="fail_message"></div>
-
 <form name="loginForm" id="login" action="#" onsubmit="return login(this);">
     <input type="text" name="username" id="username" placeholder="Pick a username!" />
     <input type="submit" name="login_submit" value="Log In">
@@ -29,6 +29,16 @@
 	<button id="end" onclick="end()">End</button> <button id="mute" onclick="mute()">Mute</button> <button id="pause" onclick="pause()">Pause</button>
 </div>
 
+
+<table >
+    <thread>
+        <th> Peer </th>
+        <th> AudioAvailableBandwidth </th>
+        <th> VideoAvailBandwidth</th>
+    </thread>
+    <tbody id="statsContainer"></tbody>
+</table>
+
 </body>
 
 
@@ -37,4 +47,5 @@
 <script src="https://cdn.pubnub.com/webrtc/webrtc.js"></script>
 <script src="https://cdn.pubnub.com/webrtc/rtc-controller.js"></script>
 <script src="video.js"></script>
+<script src="getStats.js"></script>
 </html>
