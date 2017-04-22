@@ -112,15 +112,20 @@
 
         for (var i=0; i<friends.length; i++){
           console.log(friends[i].id + " " + friends[i].name);
+          var friendName = friends[i].name;
           var friendElement = document.createElement("div");
           friendElement.innerHTML = "<b>" + friends[i].name + "</b>";
-          userElement.addEventListener('click', function(event){
-            // Call the user from here
-            friendNumber = friends[i].name;
-            console.log('Calling: ' + friendNumber);
-            startLocalStream();
-            makeCallFacebook(friendNumber)
-          });
+          
+          (function (friendName){
+            friendElement.addEventListener('click', function(event){
+              // Call the user from here
+              friendNumber = friendName;
+              console.log('Calling: ' + friendNumber);
+              startLocalStream();
+              makeCallFacebook(friendNumber)
+            });
+          })(friendName);
+
           container.appendChild(friendElement);
         }
       } else {
