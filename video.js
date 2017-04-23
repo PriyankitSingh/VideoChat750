@@ -31,6 +31,7 @@ function login(form) {
 	});
 	return false;
 }
+
 function makeCall(form){
 	if (!window.phone) alert("Login First!");
 	var num = form.number.value;
@@ -43,12 +44,13 @@ function makeCall(form){
 }
 
 function makeCallFacebook(friend){
+	console.log('in makeCallFacebook ' + friend);
 	if (!window.phone) alert("Login First!");
 	var num = friend;
 	if (phone.number()==num) return false; // No calling yourself!
 	ctrl.isOnline(num, function(isOn){
 		if (isOn) ctrl.dial(num);
-		else alert("User if Offline");
+		else alert("User is Offline");
 	});
 	return false;
 }
