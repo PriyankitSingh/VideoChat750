@@ -97,11 +97,6 @@
         'Thanks for logging in, ' + response.name + '!';
     });
 
-    // console.log('Checking permissions');
-    // FB.api('/me/permissions', function(response){
-    //   console.log(response);
-    // });
-
     // fetch friends (only gets people who have signed up for this application)
     console.log('Fetching your friends');
     FB.api('/me/friends', function(response){
@@ -113,18 +108,19 @@
         for (var i=0; i<friends.length; i++){
           console.log(friends[i].id + " " + friends[i].name);
           var friendName = friends[i].name;
+          var friendId = friends[i].id;
           var friendElement = document.createElement("div");
           friendElement.innerHTML = "<b>" + friends[i].name + "</b>";
           
-          (function (friendName){
+          (function (friendName, friendId){
             friendElement.addEventListener('click', function(event){
               // Call the user from here
               friendNumber = friendName;
-              console.log('Calling: ' + friendNumber);
+              console.log('Calling: ' + friendNumber + ' using ' + friendId);
               startLocalStream();
-              makeCallFacebook(friendNumber)
+              makeCallFacebook(friendId)
             });
-          })(friendName);
+          })(friendName, friendId);
 
           container.appendChild(friendElement);
         }
@@ -143,7 +139,7 @@ function loginPubnub(){
 
   FB.api('/me', function(response) {
     if (response && !response.error){
-      userName = response.name;
+      userName = response.id;
 
       phone = window.phone = PHONE({
         number        : userName || "Anonymous", 
