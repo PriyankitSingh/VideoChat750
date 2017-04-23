@@ -37,7 +37,7 @@ function makeCall(form){
 	if (phone.number()==num) return false; // No calling yourself!
 	ctrl.isOnline(num, function(isOn){
 		if (isOn) ctrl.dial(num);
-		else alert("User if Offline");
+		else alert("User is Offline");
 	});
 	return false;
 }
@@ -60,6 +60,7 @@ function mute(){
 }
 
 function end(){
+	console.log('ending stream');
 	ctrl.hangup();
 }
 
