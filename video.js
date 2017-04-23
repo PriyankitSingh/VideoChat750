@@ -185,7 +185,9 @@ function start_face_tracker(){
     context.clearRect(0, 0, canvas.width, canvas.height);
 
     event.data.forEach(function(rect) {
-      ctx.drawImage(video, rect.x, rect.y, 400, 300, 0, 0, rect.width, rect.height);
+    	ctx.clearRect(0, 0, faceCanvas.width, faceCanvas.height);
+     	ctx.drawImage(video, rect.x, rect.y, 400, 300, 
+      						0, 0, faceCanvas.width, faceCanvas.height);
       // context.strokeStyle = '#a64ceb';
       // context.strokeRect(rect.x, rect.y, rect.width, rect.height);
       // context.font = '11px Helvetica';
