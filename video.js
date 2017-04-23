@@ -162,7 +162,7 @@ function send_img(){
 		if(!phone || my_session == null){
 			console.log("not ready yet");
 			return;
-			}
+		}
 		var pic = phone.snap();
 		pic.data = faceCanvas.toDataURL("image/jpeg");
 		//console.log(img);
@@ -178,27 +178,34 @@ function start_face_tracker(){
   tracker.setInitialScale(4);
   tracker.setStepSize(2);
   tracker.setEdgesDensity(0.1);
+  var faceContainer = document.getElementById('faceContainer');
 
   tracking.track('#myVideo', tracker, { camera: true }); // tracker with a camera.
 
+  //
   tracker.on('track', function(event) {
+  	faceContainer.innerHTML = ''; // clear the div
     context.clearRect(0, 0, canvas.width, canvas.height);
 
+    // Loops through all faces found.
     event.data.forEach(function(rect) {
-    	ctx.clearRect(0, 0, faceCanvas.width, faceCanvas.height);
-     	ctx.drawImage(video, rect.x, rect.y, 400, 300, 
-      						0, 0, faceCanvas.width, faceCanvas.height);
-      // context.strokeStyle = '#a64ceb';
-      // context.strokeRect(rect.x, rect.y, rect.width, rect.height);
-      // context.font = '11px Helvetica';
-      // context.fillStyle = "#fff";
-      // context.fillText('x: ' + rect.x + 'px', rect.x + rect.width + 5, rect.y + 11);
-      // context.fillText('y: ' + rect.y + 'px', rect.x + rect.width + 5, rect.y + 22);
+    	// create a new canvas for each face
+    	var singleFaceCanvas = document.createElement('canvas');
+    	singleFaceCanvas.height = 200;
+    	singleFaceCanvas.width = 200;
+    	var singleFaceContext = singleFaceCanvas.getContext('2d');
+
+    	singleFaceContext.drawImage(video, rect.x, rect.y, 400, 300, 
+      						0, 0, singleFaceCanvas.width, singleFaceCanvas.height);
+    	faceContainer.appendChild(singleFaceCanvas);
+    	// ctx.clearRect(0, 0, faceCanvas.width, faceCanvas.height);
+     // 	ctx.drawImage(video, rect.x, rect.y, 400, 300, 
+     //  						0, 0, faceCanvas.width, faceCanvas.height);
     });
   });
 
-  var gui = new dat.GUI();
-  gui.add(tracker, 'edgesDensity', 0.1, 0.5).step(0.01);
-  gui.add(tracker, 'initialScale', 1.0, 10.0).step(0.1);
-  gui.add(tracker, 'stepSize', 1, 5).step(0.1);
+  // var gui = new dat.GUI();
+  // gui.add(tracker, 'edgesDensity', 0.1, 0.5).step(0.01);
+  // gui.add(tracker, 'initialScale', 1.0, 10.0).step(0.1);
+  // gui.add(tracker, 'stepSize', 1, 5).step(0.1);
 };
