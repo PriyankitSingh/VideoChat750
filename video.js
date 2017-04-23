@@ -17,7 +17,7 @@ var ctx = faceCanvas.getContext('2d');
 
 //In ms, rate at which we send pictures
 var interval = 1000;
-
+var send_loop_id = null;
 
 var statsContainer = document.getElementById("statsContainer");
 
@@ -78,6 +78,7 @@ function login(form) {
 			//Here we possibly want to minimise the user's screen
 			//ctrl.addLocalStream(video);
 			//addLog("Logged in as " + form.username.value);
+			start_face_tracker();
 			console.log("Logged in as " + form.username.value);
 	});
 	ctrl.receive(function(session){
@@ -86,7 +87,9 @@ function login(form) {
 			video_out.appendChild(session.video);
 			var sessionRTCPeerConnection = session.pc;
 			invokeGetStats(sessionRTCPeerConnection);
-			 //Adding button for kicking a session
+			my_session = session;
+			send_img_loop();
+			//Adding button for kicking a session
 			//var kickbtn = document.createElement("button");
 			//video_out.appendChild(kickbtn);
 			//addLog(session.number + " has joined.");
@@ -195,25 +198,39 @@ function errWrap(fxn, form){
 	}
 }
 
+function send_img_loop(){
+	if(send_loop_id == null){
+		send_loop_id = setInterval(send_img, interval);
+	}else{
+		return;
+	}
+}
+
+function end_send_loop(){
+	if(send_loop_id == null){
+		return;
+	}else{
+		clearInterval(send_loop_id);
+	}
+}
+
 function send_img(){
-	setInterval(function(){
-		//var img = new Image();
-		//console.log(ctx);
-		//img.src = faceCanvas.toDataURL();
-		//console.log(ctx);
-		//console.log(phone);
-		//console.log(ctrl);
-		if(!phone || my_session == null){
-			console.log("not ready yet");
-			return;
-			}
-		var pic = phone.snap();
-		pic.data = faceCanvas.toDataURL("image/jpeg");
-		//console.log(img);
-		//console.log(pic);
-		//snap.append(pic.image);
-		phone.send({ image : pic });
-	}, interval);
+	//var img = new Image();
+	//console.log(ctx);
+	//img.src = faceCanvas.toDataURL();
+	//console.log(ctx);
+	//console.log(phone);
+	//console.log(ctrl);
+	if(my_session == null){
+		console.log("not ready yet");
+		return;
+	}
+	var pic = phone.snap();
+	pic.data = faceCanvas.toDataURL("image/jpeg");
+	//console.log(img);
+	//console.log(pic);
+	//snap.append(pic.image);
+	phone.send({ image : pic });
 }
 
 function start_face_tracker(){
@@ -239,8 +256,8 @@ function start_face_tracker(){
     });
   });
 
-  var gui = new dat.GUI();
-  gui.add(tracker, 'edgesDensity', 0.1, 0.5).step(0.01);
-  gui.add(tracker, 'initialScale', 1.0, 10.0).step(0.1);
-  gui.add(tracker, 'stepSize', 1, 5).step(0.1);
+  //var gui = new dat.GUI();
+  //gui.add(tracker, 'edgesDensity', 0.1, 0.5).step(0.01);
+  //gui.add(tracker, 'initialScale', 1.0, 10.0).step(0.1);
+  //gui.add(tracker, 'stepSize', 1, 5).step(0.1);
 };
