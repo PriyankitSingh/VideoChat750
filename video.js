@@ -1,5 +1,10 @@
 var video_out = document.getElementById("vid-box");
-var vid_thumb = document.getElementById("vid-thumb");
+//var vid_thumb = document.getElementById("vid-thumb");
+
+var snap = document.getElementById("snap");
+var snap_context = snap.getContext('2d');
+
+var my_session = null;
 var vidCount = 0;
 var bandwidth = 250;
 var sessionList = [];
@@ -35,6 +40,15 @@ function invokeGetStats(peerConnection){
 
 }
 
+var video = document.getElementById('myVideo');
+var canvas = document.getElementById('canvas');
+var context = canvas.getContext('2d');
+var faceCanvas = document.getElementById('faceOnly');
+var ctx = faceCanvas.getContext('2d');
+
+//In ms, rate at which we send pictures
+var interval = 1000;
+  
 function setBandwidth(form){
 	bandwidth = form.bandwidth.value;
 	return false;
@@ -94,6 +108,12 @@ function login(form) {
 		//addLog(session.number+": audio enabled - " + isEnabled);
 		console.log(session.number+": audio enabled - " + isEnabled);
 	});
+	phone.message(function(session,message){
+		var img = new Image();
+		img.src = message.image.data;
+		snap_context.drawImage(img,0,0);
+		//console.log(message);
+	});
 	return false;
 }
 
@@ -104,15 +124,15 @@ function makeCall(form){
 
 	ctrl.isOnline(num,
 		function(isOn){
-			if (isOn) {
-				ctrl.dial(num);
-			}else {
-				alert("User if Offline");
+			if (isOn){
+				my_session = ctrl.dial(num);
 			}
+			else alert("User if Offline");
 		}
 	);
 	return false;
 }
+
 
 function mute(){
 	var audio = ctrl.toggleAudio();
@@ -170,3 +190,53 @@ function errWrap(fxn, form){
 		return false;
 	}
 }
+
+function send_img(){
+	setInterval(function(){
+		//var img = new Image();
+		//console.log(ctx);
+		//img.src = faceCanvas.toDataURL();
+		//console.log(ctx);
+		//console.log(phone);
+		//console.log(ctrl);
+		if(!phone || my_session == null){
+			console.log("not ready yet");
+			return;
+			}
+		var pic = phone.snap();
+		pic.data = faceCanvas.toDataURL("image/jpeg");
+		//console.log(img);
+		//console.log(pic);
+		//snap.append(pic.image);
+		phone.send({ image : pic });
+	}, interval);
+}
+
+function start_face_tracker(){
+  console.log("print");
+  var tracker = new tracking.ObjectTracker('face');
+  tracker.setInitialScale(4);
+  tracker.setStepSize(2);
+  tracker.setEdgesDensity(0.1);
+
+  tracking.track('#myVideo', tracker, { camera: true }); // tracker with a camera.
+
+  tracker.on('track', function(event) {
+    context.clearRect(0, 0, canvas.width, canvas.height);
+
+    event.data.forEach(function(rect) {
+      ctx.drawImage(video, rect.x, rect.y, 400, 300, 0, 0, rect.width, rect.height);
+      // context.strokeStyle = '#a64ceb';
+      // context.strokeRect(rect.x, rect.y, rect.width, rect.height);
+      // context.font = '11px Helvetica';
+      // context.fillStyle = "#fff";
+      // context.fillText('x: ' + rect.x + 'px', rect.x + rect.width + 5, rect.y + 11);
+      // context.fillText('y: ' + rect.y + 'px', rect.x + rect.width + 5, rect.y + 22);
+    });
+  });
+
+  var gui = new dat.GUI();
+  gui.add(tracker, 'edgesDensity', 0.1, 0.5).step(0.01);
+  gui.add(tracker, 'initialScale', 1.0, 10.0).step(0.1);
+  gui.add(tracker, 'stepSize', 1, 5).step(0.1);
+};
