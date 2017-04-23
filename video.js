@@ -94,6 +94,18 @@ function makeCall(form){
 	return false;
 }
 
+function makeCallFacebook(friend){
+	console.log('in makeCallFacebook ' + friend);
+	if (!window.phone) alert("Login First!");
+	var num = friend;
+	if (phone.number()==num) return false; // No calling yourself!
+	ctrl.isOnline(num, function(isOn){
+		if (isOn) ctrl.dial(num); // error here calls line 85
+		else alert("User is Offline");
+	});
+	return false;
+}
+
 
 function mute(){
 	var audio = ctrl.toggleAudio();
@@ -102,6 +114,7 @@ function mute(){
 }
 
 function end(){
+	console.log('ending stream');
 	ctrl.hangup();
 }
 
@@ -121,17 +134,18 @@ function getVideo(number){
 
 	function get_xirsys_servers() {
     var servers;
+    // TODO: this post request giving error
     $.ajax({
         type: 'POST',
         url: 'https://service.xirsys.com/ice',
-        data: {
+        data: JSON.stringify({
             room: 'default',
             application: 'default',
             domain: 'kevingleason.me',
             ident: 'gleasonk',
             secret: 'b9066b5e-1f75-11e5-866a-c400956a1e19',
             secure: 1,
-        },
+        }),
         success: function(res) {
 	        console.log(res);
             res = JSON.parse(res);
