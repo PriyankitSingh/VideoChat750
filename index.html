@@ -5,9 +5,24 @@
 
 
 <body>
+<hr>
+Other Users Cam
 <div id="vid-box"></div>
-<div id="vid-thumb"></div>
+<hr>
+Local Cam
+<video id="myVideo" width="400" height="300" preload autoplay loop muted></video>
+<hr>
 <div id="fail_message"></div>
+<hr>
+
+<canvas id="canvas" width="320" height="240"></canvas>
+<hr>
+Local Face Canvas
+<canvas id="faceOnly" width="100" height="100"></canvas>
+<hr>
+Other User Face Canvas
+<canvas id="snap" width="100" height="100"></canvas>
+<hr>
 
 <form name="loginForm" id="login" action="#" onsubmit="return login(this);">
     <input type="text" name="username" id="username" placeholder="Pick a username!" />
@@ -29,6 +44,11 @@
 	<button id="end" onclick="end()">End</button> <button id="mute" onclick="mute()">Mute</button> <button id="pause" onclick="pause()">Pause</button>
 </div>
 
+<div>
+<button id="start" onclick="start_face_tracker()">Start Face Tracking</button>
+<button id="send_img" onclick="send_img()">Send Images</button>
+</div>
+
 </body>
 
 
@@ -37,4 +57,7 @@
 <script src="https://cdn.pubnub.com/webrtc/webrtc.js"></script>
 <script src="https://cdn.pubnub.com/webrtc/rtc-controller.js"></script>
 <script src="video.js"></script>
+<script src="../tracking.js-master/build/tracking-min.js"></script>
+<!-- <script src="../node_modules/dat.gui/build/dat.gui.min.js"></script> -->
+<script src="../tracking.js-master/build/data/face-min.js"></script>
 </html>
