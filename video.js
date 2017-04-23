@@ -9,7 +9,19 @@ var vidCount = 0;
 var bandwidth = 250;
 var sessionList = [];
 
+var video = document.getElementById('myVideo');
+var canvas = document.getElementById('canvas');
+var context = canvas.getContext('2d');
+var faceCanvas = document.getElementById('faceOnly');
+var ctx = faceCanvas.getContext('2d');
+
+//In ms, rate at which we send pictures
+var interval = 1000;
+
+
 var statsContainer = document.getElementById("statsContainer");
+
+// This function measures the availableBandwidth
 function invokeGetStats(peerConnection){
 	getStats(peerConnection, function(result ) {
 		var tableRow =  document.getElementById('peer-stats-' + peerConnection.number);
@@ -40,15 +52,7 @@ function invokeGetStats(peerConnection){
 
 }
 
-var video = document.getElementById('myVideo');
-var canvas = document.getElementById('canvas');
-var context = canvas.getContext('2d');
-var faceCanvas = document.getElementById('faceOnly');
-var ctx = faceCanvas.getContext('2d');
 
-//In ms, rate at which we send pictures
-var interval = 1000;
-  
 function setBandwidth(form){
 	bandwidth = form.bandwidth.value;
 	return false;
@@ -72,7 +76,7 @@ function login(form) {
 			form.username.style.background="#55ff5b";
 			form.login_submit.hidden="true";
 			//Here we possibly want to minimise the user's screen
-			ctrl.addLocalStream(vid_thumb);
+			//ctrl.addLocalStream(video);
 			//addLog("Logged in as " + form.username.value);
 			console.log("Logged in as " + form.username.value);
 	});
