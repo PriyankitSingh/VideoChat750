@@ -8,7 +8,6 @@
 
 	<body onunload="end()">
 		<!-- this script has to be in the beginning of body -->
-		<script src="scripts/FacebookLogin.js"></script>
 		
 		<div id="friends-container" class="sidebar"></div>
 		
@@ -18,12 +17,12 @@
 				<div id="vid-box"></div>
 			<hr>
 				Local Cam
-				<video id="myVideo" width="400" height="300" preload autoplay loop muted></video>
+				<video id="myVideo" preload autoplay loop muted></video>
 			<hr>
 				<div id="fail_message"></div>
 			<hr>
 			
-			<canvas id="canvas" width="320" height="240"></canvas>
+			<canvas id="canvas"></canvas>
 			<hr>
 				Local Face Canvas
 				<div id="faceContainer"></div>
@@ -70,6 +69,7 @@
 			
 		</div>
 		
+		<script src="scripts/FacebookLogin.js"></script>
 	</body>
 
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
@@ -80,5 +80,6 @@
 	<script src="../tracking.js-master/build/tracking-min.js"></script>
 	<!-- <script src="../node_modules/dat.gui/build/dat.gui.min.js"></script> -->
 	<script src="../tracking.js-master/build/data/face-min.js"></script>
+	
 </html>
 
