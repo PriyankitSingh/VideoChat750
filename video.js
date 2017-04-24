@@ -118,7 +118,9 @@ function login(form) {
 	phone.message(function(session,message){
 		var img = new Image();
 		img.src = message.image.data;
-		snap_context.drawImage(img,0,0);
+		img.onload = function(){
+			snap_context.drawImage(img,0,0);
+		}
 		//console.log(message);
 	});
 	return false;
