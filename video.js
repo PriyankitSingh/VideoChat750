@@ -87,7 +87,7 @@ function login(form) {
 			video_out.appendChild(session.video);
 			var sessionRTCPeerConnection = session.pc;
 			invokeGetStats(sessionRTCPeerConnection);
-			my_session = session;
+
 			send_img_loop();
 			//Adding button for kicking a session
 			//var kickbtn = document.createElement("button");
@@ -132,7 +132,7 @@ function makeCall(form){
 	ctrl.isOnline(num,
 		function(isOn){
 			if (isOn){
-				my_session = ctrl.dial(num);
+				ctrl.dial(num);
 			}
 			else alert("User if Offline");
 		}
@@ -221,10 +221,10 @@ function send_img(){
 	//console.log(ctx);
 	//console.log(phone);
 	//console.log(ctrl);
-	if(my_session == null){
-		console.log("not ready yet");
-		return;
-	}
+	//if(my_session == null){
+	//	console.log("not ready yet");
+	//	return;
+	//}
 	var pic = phone.snap();
 	pic.data = faceCanvas.toDataURL("image/jpeg");
 	//console.log(img);

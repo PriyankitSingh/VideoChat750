@@ -67,7 +67,8 @@ getStats(rtcPeerConnection, function(result) {
                         nomore = true;
                     }
                 };
-
+                //console.log(mediaStreamTrack.number);
+                //console.log(results);
                 for (var i = 0; i < results.length; ++i) {
                     var res = results[i];
 
@@ -126,8 +127,9 @@ getStats(rtcPeerConnection, function(result) {
                             result.video = res;
                         }
 
-                        result.video.availableBandwidth = kilobytes.toFixed(1);
-
+                        if(kilobytes != 0){
+                            result.video.availableBandwidth = kilobytes.toFixed(1);
+                        }
                         if(res.googFrameHeightReceived && res.googFrameWidthReceived) {
                             result.resolutions = {
                                 width: res.googFrameWidthReceived,
