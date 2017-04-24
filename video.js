@@ -198,24 +198,29 @@ function start_face_tracker(){
 
   //
   tracker.on('track', function(event) {
-  	faceContainer.innerHTML = ''; // clear the div
-    context.clearRect(0, 0, canvas.width, canvas.height);
+  	if(event.data.length === 0){
+  		console.log('no faces found');
+  	} else {
+	  	faceContainer.innerHTML = ''; // clear the div
+	    context.clearRect(0, 0, canvas.width, canvas.height);
 
-    // Loops through all faces found.
-    event.data.forEach(function(rect) {
-    	// create a new canvas for each face
-    	var singleFaceCanvas = document.createElement('canvas');
-    	singleFaceCanvas.height = 200;
-    	singleFaceCanvas.width = 200;
-    	var singleFaceContext = singleFaceCanvas.getContext('2d');
+	    // Loops through all faces found.
+	    event.data.forEach(function(rect) {
+	    	// create a new canvas for each face
+	    	var singleFaceCanvas = document.createElement('canvas');
+	    	singleFaceCanvas.height = 200;
+	    	singleFaceCanvas.width = 200;
+	    	var singleFaceContext = singleFaceCanvas.getContext('2d');
 
-    	singleFaceContext.drawImage(video, rect.x, rect.y, 400, 300, 
-      						0, 0, singleFaceCanvas.width, singleFaceCanvas.height);
-    	faceContainer.appendChild(singleFaceCanvas);
-    	// ctx.clearRect(0, 0, faceCanvas.width, faceCanvas.height);
-     // 	ctx.drawImage(video, rect.x, rect.y, 400, 300, 
-     //  						0, 0, faceCanvas.width, faceCanvas.height);
-    });
+	    	singleFaceContext.drawImage(video, rect.x, rect.y, 400, 300, 
+	      						0, 0, singleFaceCanvas.width, singleFaceCanvas.height);
+	    	faceContainer.appendChild(singleFaceCanvas);
+	    	// ctx.clearRect(0, 0, faceCanvas.width, faceCanvas.height);
+	     // 	ctx.drawImage(video, rect.x, rect.y, 400, 300, 
+	     //  						0, 0, faceCanvas.width, faceCanvas.height);
+	    });
+  	}
+  	
   });
 
   // var gui = new dat.GUI();
