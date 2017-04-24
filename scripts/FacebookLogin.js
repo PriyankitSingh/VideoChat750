@@ -9,7 +9,6 @@
   var video_out = document.getElementById("vid-box");
   var vid_thumb = document.getElementById("myVideo");
   var vidCount = 0;
-  var friendsPrinted = false;
 
   // This is called with the results from from FB.getLoginStatus().
   function statusChangeCallback(response) {
@@ -105,12 +104,12 @@
     // fetch friends (only gets people who have signed up for this application)
     console.log('Fetching your friends');
     FB.api('/me/friends', function(response){
-      if (response && !response.error && !friendsPrinted) {
+      if (response && !response.error) {
 
         var friends = response.data.sort(sortMethod);
         console.log('got a response. Number of friends: ' + friends.length);
         var container = document.getElementById('friends-container');
-
+        container.innerHTML = '';
         for (var i=0; i<friends.length; i++){
           console.log(friends[i].id + " " + friends[i].name);
           var friendName = friends[i].name;
@@ -129,7 +128,6 @@
           })(friendName, friendId);
 
           container.appendChild(friendElement);
-          friendsPrinted = true;
         }
       } else {
         console.log('got no response');
