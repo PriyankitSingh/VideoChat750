@@ -6,6 +6,10 @@
   var userName = null;
   var callee = null;
   var phone = null;
+  var video_out = document.getElementById("vid-box");
+  var vid_thumb = document.getElementById("myVideo");
+  var vidCount = 0;
+
   // This is called with the results from from FB.getLoginStatus().
   function statusChangeCallback(response) {
     console.log('statusChangeCallback');
@@ -130,9 +134,7 @@
     });
   }
 
-var video_out = document.getElementById("vid-box");
-var vid_thumb = document.getElementById("vid-thumb");
-var vidCount = 0;
+
 
 function loginPubnub(){
   console.log('Logging in using PubNub');
@@ -168,8 +170,9 @@ function startLocalStream(){
   var ctrl = window.ctrl = CONTROLLER(phone, get_xirsys_servers);
   ctrl.ready(function(){
     // removed the form stuff
-    ctrl.addLocalStream(vid_thumb);
-    addLog("Logged in as " + userName); 
+    ctrl.addLocalStream(video);
+    start_face_tracker();
+    console.log("Logged in as " + userName); 
   });
   ctrl.receive(function(session){
     session.connected(function(session){ video_out.appendChild(session.video); addLog(session.number + " has joined."); vidCount++; });
