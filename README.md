@@ -1,7 +1,7 @@
 # VideoChat750
 This is an alternate repo. Follow the instructions below for pushing to uni server.
 
-How to pull/push from the alternative repo to the university server?
+ How to pull/push from the alternative repo to the university server?
  - git remote add alternativerepo git@gitlab.com:randomId/repo.git 
  - git remote -v
 
