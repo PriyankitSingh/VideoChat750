@@ -114,7 +114,7 @@
           console.log(friends[i].id + " " + friends[i].name);
           var friendName = friends[i].name;
           var friendId = friends[i].id;
-          var friendElement = document.createElement("div");
+          var friendElement = document.createElement("a");
           friendElement.innerHTML = "<b>" + friends[i].name + "</b>";
           
           (function (friendName, friendId){

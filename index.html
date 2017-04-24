@@ -3,65 +3,73 @@
 <html>
 
 	<head>
-
+	<link rel="stylesheet" type="text/css" href="css/stylesheet.css">
 	</head>
 
 	<body onunload="end()">
 		<!-- this script has to be in the beginning of body -->
 		<script src="scripts/FacebookLogin.js"></script>
-
-		<hr>
-			Other Users Cam
-			<div id="vid-box"></div>
-		<hr>
-			Local Cam
-			<video id="myVideo" width="400" height="300" preload autoplay loop muted></video>
-		<hr>
-			<div id="fail_message"></div>
-		<hr>
 		
-		<canvas id="canvas" width="320" height="240"></canvas>
-		<hr>
-			Local Face Canvas
-			<div id="faceContainer"></div>
-			<canvas id="faceOnly" width="200" height="200"></canvas>
-		<hr>
-			Other User Face Canvas
-			<canvas id="snap" width="200" height="200"></canvas>
-		<hr>
+		<div id="friends-container" class="sidebar"></div>
+		
+		<div class= "userVideoContainer">
+			<hr>
+				Other Users Cam
+				<div id="vid-box"></div>
+			<hr>
+				Local Cam
+				<video id="myVideo" width="400" height="300" preload autoplay loop muted></video>
+			<hr>
+				<div id="fail_message"></div>
+			<hr>
+			
+			<canvas id="canvas" width="320" height="240"></canvas>
+			<hr>
+				Local Face Canvas
+				<div id="faceContainer"></div>
+				<canvas id="faceOnly" width="200" height="200"></canvas>
+			<hr>
+				Other User Face Canvas
+				<canvas id="snap" width="200" height="200"></canvas>
+			<hr>
 
-		<div id="status"></div>
-		<fb:login-button scope="public_profile,email,user_friends" onlogin="checkLoginState();"></fb:login-button>
-		<div id="friends-container"></div>
+			<div id="status"></div>
+			<fb:login-button scope="public_profile,email,user_friends" onlogin="checkLoginState();"></fb:login-button>
+			
+			<!-- TODO: need to remove one (or both) of the forms -->
+			<form name="loginForm" id="login" action="#" onsubmit="return loginPubnub();">
+			    <input type="text" name="username" id="username" placeholder="Pick a username!" />
+			    <input type="submit" name="login_submit" value="Log In">
+			</form>
 
-		<!-- TODO: need to remove one (or both) of the forms -->
-		<form name="loginForm" id="login" action="#" onsubmit="return loginPubnub();">
-		    <input type="text" name="username" id="username" placeholder="Pick a username!" />
-		    <input type="submit" name="login_submit" value="Log In">
-		</form>
+			<form name="callForm" id="call" action="#" onsubmit="return makeCall(this);">
+				<input type="text" name="number" placeholder="Enter user to dial!" />
+				<input type="submit" value="Call"/>
+			</form>
 
-		<form name="callForm" id="call" action="#" onsubmit="return makeCall(this);">
-			<input type="text" name="number" placeholder="Enter user to dial!" />
-			<input type="submit" value="Call"/>
-		</form>
+			<!-- This is for testing, might replace with something else later -->
+			<form name="TestBandwidth" id="bandwidthForm" action ="#" onsubmit="setBandwidth(this)">
+			    <input type="text" name="bandwidth" id= "bandwidth" value="250"> kbps
+			    <input type="submit" value="Set bandwidth" >
+			</form>
 
-		<!-- This is for testing, might replace with something else later -->
-		<form name="TestBandwidth" id="bandwidthForm" action ="#" onsubmit="setBandwidth(this)">
-		    <input type="text" name="bandwidth" id= "bandwidth" value="250"> kbps
-		    <input type="submit" value="Set bandwidth" >
-		</form>
-
-		<div id="inCall"> <!-- Buttons for in call features -->
-			<button id="end" onclick="end()">End</button> <button id="mute" onclick="mute()">Mute</button> <button id="pause" onclick="pause()">Pause</button>
+			<div id="inCall"> <!-- Buttons for in call features -->
+				<button id="end" onclick="end()">End</button> <button id="mute" onclick="mute()">Mute</button> <button id="pause" onclick="pause()">Pause</button>
+			</div>
+			<table >
+			    <thread>
+			        <th> Peer </th>
+			        <th> AudioAvailableBandwidth </th>
+			        <th> VideoAvailBandwidth</th>
+			    </thread>
+			    <tbody id="statsContainer"></tbody>
+			</table>
 		</div>
-		<table >
-    <thread>
-        <th> Peer </th>
-        <th> AudioAvailableBandwidth </th>
-        <th> VideoAvailBandwidth</th>
-    </thread>
-    <tbody id="statsContainer"></tbody>
-</table>
+		
+		<div class="otherVideoContainer">
+			
+		</div>
+		
 	</body>
 
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
