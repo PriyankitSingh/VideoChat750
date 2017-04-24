@@ -28,7 +28,7 @@ function invokeGetStats(peerConnection){
 		if(!tableRow) {
 			tableRow = document.createElement('tr');
 			tableRow.id ='peer-stats-' + peerConnection.number;
-			console.log(tableRow.id);
+			//console.log(tableRow.id);
 			statsContainer.appendChild(tableRow);
 		}
 
