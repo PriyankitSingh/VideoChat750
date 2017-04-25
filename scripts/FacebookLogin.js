@@ -115,7 +115,7 @@
           var friendName = friends[i].name;
           var friendId = friends[i].id;
           var friendElement = document.createElement("a");
-          friendElement.innerHTML = "<b>" + friends[i].name + "</b>";
+          friendElement.innerHTML = "<b>" + friends[i].name + "</b><br>";
           
           (function (friendName, friendId){
             friendElement.addEventListener('click', function(event){
