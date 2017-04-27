@@ -1,18 +1,17 @@
 var video_out = document.getElementById("vid-box");
 //var vid_thumb = document.getElementById("vid-thumb");
 
-var snap = document.getElementById("snap");
+//var snap = document.getElementById("snap");
+var snap = document.createElement('canvas');
 var snap_context = snap.getContext('2d');
 
-var my_session = null;
 var vidCount = 0;
 var bandwidth = 250;
 var sessionList = [];
 
 var video = document.getElementById('myVideo');
-var canvas = document.getElementById('canvas');
-var context = canvas.getContext('2d');
-var faceCanvas = document.getElementById('faceOnly');
+var faceCanvas = document.createElement('canvas');
+//var faceCanvas = document.getElementById('faceCanvas');
 var ctx = faceCanvas.getContext('2d');
 
 //In ms, rate at which we send pictures
@@ -257,7 +256,6 @@ function start_face_tracker(){
   		console.log('no faces found');
   	} else {
 	  	faceContainer.innerHTML = ''; // clear the div
-	    context.clearRect(0, 0, canvas.width, canvas.height);
 
 	    // Loops through all faces found.
 	    event.data.forEach(function(rect) {
