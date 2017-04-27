@@ -181,7 +181,7 @@ function getVideo(number){
 // 	$('#logs').append("<p>"+log+"</p>");
 // }
 
-	function get_xirsys_servers() {
+function get_xirsys_servers() {
     var servers;
     // TODO: this post request giving error
     $.ajax({
@@ -231,21 +231,12 @@ function end_send_loop(){
 }
 
 function send_img(){
-	//var img = new Image();
-	//console.log(ctx);
-	//img.src = faceCanvas.toDataURL();
-	//console.log(ctx);
-	//console.log(phone);
-	//console.log(ctrl);
 	if(my_session == null){
 		console.log("not ready yet");
 		return;
 	}
 	var pic = phone.snap();
 	pic.data = faceCanvas.toDataURL("image/jpeg");
-	//console.log(img);
-	//console.log(pic);
-	//snap.append(pic.image);
 	phone.send({ image : pic });
 
 }
@@ -279,17 +270,8 @@ function start_face_tracker(){
 	    	singleFaceContext.drawImage(video, rect.x, rect.y, 400, 300, 
 	      						0, 0, singleFaceCanvas.width, singleFaceCanvas.height);
 	    	faceContainer.appendChild(singleFaceCanvas);
-	    	// ctx.clearRect(0, 0, faceCanvas.width, faceCanvas.height);
-	     // 	ctx.drawImage(video, rect.x, rect.y, 400, 300, 
-	     //  						0, 0, faceCanvas.width, faceCanvas.height);
 	    });
   	}
-  	
   });
-
-  // var gui = new dat.GUI();
-  // gui.add(tracker, 'edgesDensity', 0.1, 0.5).step(0.01);
-  // gui.add(tracker, 'initialScale', 1.0, 10.0).step(0.1);
-  // gui.add(tracker, 'stepSize', 1, 5).step(0.1);
 };
 
