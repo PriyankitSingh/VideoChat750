@@ -19,7 +19,6 @@ var interval = 1000;
 var send_loop_id = null;
 
 var statsContainer = document.getElementById("statsContainer");
-var faceContainer = {};
 var facesReceived = {};
 
 // This function measures the availableBandwidth
