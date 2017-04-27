@@ -19,6 +19,8 @@ var interval = 1000;
 var send_loop_id = null;
 
 var statsContainer = document.getElementById("statsContainer");
+var faceContainer = {};
+var facesReceived = {};
 
 // This function measures the availableBandwidth
 function invokeGetStats(peerConnection){
@@ -86,7 +88,6 @@ function login(form) {
 			video_out.appendChild(session.video);
 			var sessionRTCPeerConnection = session.pc;
 			invokeGetStats(sessionRTCPeerConnection);
-			my_session = session;
 			//Adding button for kicking a session
 			//var kickbtn = document.createElement("button");
 			//video_out.appendChild(kickbtn);
@@ -117,7 +118,7 @@ function login(form) {
 		console.log("received image");
 		var img = new Image();
 		img.src = message.image.data;
-		faceContainer[session.number] = img;
+		facesReceived[session.number] = img;
 		snap.width = 200;
 		snap.height = 200;
 		var iteration = 1;
@@ -125,8 +126,8 @@ function login(form) {
 		var startY = 0;
 		img.onload = function(){
 			snap_context.clearRect(0, 0, snap.width, snap.height);
-			Object.keys(faceContainer).forEach(function (key) {
-				var value = faceContainer[key];
+			Object.keys(facesReceived).forEach(function (key) {
+				var value = facesReceived[key];
 				snap.height = 200 * iteration;
 				snap_context.drawImage(img,0,startY);
 				startX = startX + 200;
@@ -148,7 +149,7 @@ function makeCall(form){
 	ctrl.isOnline(num,
 		function(isOn){
 			if (isOn){
-				my_session = ctrl.dial(num);
+				ctrl.dial(num);
 			}
 			else alert("User if Offline");
 		}
@@ -247,10 +248,6 @@ function end_send_loop(){
 }
 
 function send_img(){
-	if(my_session == null){
-		console.log("not ready yet");
-		return;
-	}
 	var pic = phone.snap();
 	pic.data = faceCanvas.toDataURL("image/jpeg");
 	phone.send({ image : pic });
