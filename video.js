@@ -87,7 +87,6 @@ function login(form) {
 			var sessionRTCPeerConnection = session.pc;
 			invokeGetStats(sessionRTCPeerConnection);
 			my_session = session;
-			send_img_loop();
 			//Adding button for kicking a session
 			//var kickbtn = document.createElement("button");
 			//video_out.appendChild(kickbtn);
@@ -115,12 +114,28 @@ function login(form) {
 		console.log(session.number+": audio enabled - " + isEnabled);
 	});
 	phone.message(function(session,message){
+		console.log("received image");
 		var img = new Image();
 		img.src = message.image.data;
+		faceContainer[session.number] = img;
+		snap.width = 200;
+		snap.height = 200;
+		var iteration = 1;
+		var startX = 0;
+		var startY = 0;
 		img.onload = function(){
-			snap_context.drawImage(img,0,0);
+			snap_context.clearRect(0, 0, snap.width, snap.height);
+			Object.keys(faceContainer).forEach(function (key) {
+				var value = faceContainer[key];
+				snap.height = 200 * iteration;
+				snap_context.drawImage(img,0,startY);
+				startX = startX + 200;
+				startY = startY + 200;
+			})
+			document.getElementById('vid-box').innerHTML = "";
+			img.data = snap.toDataURL("image/jpeg");
+			document.getElementById('vid-box').appendChild(img);
 		}
-		//console.log(message);
 	});
 	return false;
 }
@@ -213,6 +228,7 @@ function errWrap(fxn, form){
 	}
 }
 
+// send images to other people
 function send_img_loop(){
 	if(send_loop_id == null){
 		send_loop_id = setInterval(send_img, interval);
@@ -221,6 +237,7 @@ function send_img_loop(){
 	}
 }
 
+// stop sending images to other people
 function end_send_loop(){
 	if(send_loop_id == null){
 		return;
