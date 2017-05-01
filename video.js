@@ -17,6 +17,8 @@ var ctx = faceCanvas.getContext('2d');
 //In ms, rate at which we send pictures
 var interval = 1000;
 var send_loop_id = null;
+var isSnapVisible = false;
+var snap_out = document.getElementById('faceImages');
 
 var statsContainer = document.getElementById("statsContainer");
 var facesReceived = {};
@@ -137,9 +139,9 @@ function login(form) {
 				startX = startX + 200;
 				startY = startY + 200;
 			})
-			document.getElementById('vid-box').innerHTML = "";
+			snap_out.innerHTML = "";
 			img.data = snap.toDataURL("image/jpeg");
-			document.getElementById('vid-box').appendChild(img);
+			snap_out.appendChild(img);
 		}
 	});
 	return false;
@@ -270,6 +272,19 @@ function send_img(){
 	phone.send({ image : pic });
 
 }
+
+function toggle(){
+	if (isSnapVisible){
+		isSnapVisible = false;
+		video_out.style.display = 'block';
+		snap_out.style.display = 'none';
+	}else{
+		isSnapVisible = true;
+		video_out.style.display = 'none';
+		snap_out.style.display = 'block';
+	}
+}
+
 /*
 function start_face_tracker(){
   console.log("print");
