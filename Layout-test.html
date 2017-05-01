@@ -12,11 +12,11 @@
 	   <script src="scripts/FacebookLogin.js"></script>
 	   <div class="grid">
 	       
-	       <div class="login">
+	    	<div class="login">
 	            <fb:login-button scope="public_profile,email,user_friends" onlogin="checkLoginState();"></fb:login-button>
 	            
 	          <div id="status"></div>
-	       <!-- TODO: need to remove one (or both) of the forms -->
+	       		<!-- TODO: need to remove one (or both) of the forms -->
 				<form name="loginForm" id="login" action="#" onsubmit="return loginPubnub();">Please log in.
 				    <input type="text" name="username" id="username" placeholder="Pick a username!" />
 				    <input type="submit" name="login_submit" value="Log In">
@@ -36,6 +36,7 @@
 	       		<div id="friends-container" class="sidebar"></div>
 			</div> 
 
+			<!-- <hr width="1" size="500"> -->
 	       	<div class="mainVideo">
 	       		<h2>Main Video</h2>
 		    	<div class= "userVideoContainer">
@@ -51,6 +52,7 @@
 		    	<div id="vid-box"></div>
 				<div id="faceImages" style="display:none;"></div>
 	       </div>
+
 	       	<div class="bandwidth">
 	       		<h3>Bandwidth</h3>
 	       	<br>
