@@ -15,8 +15,18 @@
 }
 
 .faceCanvas {
-	height: 200;
-	width:200;
+	height: 200px;
+	width:200px;
+}
+
+#myVideo {
+    width: 400px;
+    height: 300px;
+}
+
+#canvas {
+    width: 320px;
+    height: 240px;
 }
 
 .sidebar a{
