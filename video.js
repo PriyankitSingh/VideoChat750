@@ -1,18 +1,17 @@
 var video_out = document.getElementById("vid-box");
 //var vid_thumb = document.getElementById("vid-thumb");
 
-var snap = document.getElementById("snap");
+//var snap = document.getElementById("snap");
+var snap = document.createElement('canvas');
 var snap_context = snap.getContext('2d');
 
-var my_session = null;
 var vidCount = 0;
 var bandwidth = 250;
 var sessionList = [];
 
 var video = document.getElementById('myVideo');
-var canvas = document.getElementById('canvas');
-var context = canvas.getContext('2d');
-var faceCanvas = document.getElementById('faceOnly');
+var faceCanvas = document.createElement('canvas');
+//var faceCanvas = document.getElementById('faceCanvas');
 var ctx = faceCanvas.getContext('2d');
 
 //In ms, rate at which we send pictures
@@ -20,6 +19,7 @@ var interval = 1000;
 var send_loop_id = null;
 
 var statsContainer = document.getElementById("statsContainer");
+var facesReceived = {};
 
 // This function measures the availableBandwidth
 function invokeGetStats(peerConnection){
@@ -87,8 +87,11 @@ function login(form) {
 			video_out.appendChild(session.video);
 			var sessionRTCPeerConnection = session.pc;
 			invokeGetStats(sessionRTCPeerConnection);
+<<<<<<< HEAD
 
 			send_img_loop();
+=======
+>>>>>>> f9ad88ad097ae6b69ae7394c49561f90136584b7
 			//Adding button for kicking a session
 			//var kickbtn = document.createElement("button");
 			//video_out.appendChild(kickbtn);
@@ -116,12 +119,28 @@ function login(form) {
 		console.log(session.number+": audio enabled - " + isEnabled);
 	});
 	phone.message(function(session,message){
+		console.log("received image");
 		var img = new Image();
 		img.src = message.image.data;
+		facesReceived[session.number] = img;
+		snap.width = 200;
+		snap.height = 200;
+		var iteration = 1;
+		var startX = 0;
+		var startY = 0;
 		img.onload = function(){
-			snap_context.drawImage(img,0,0);
+			snap_context.clearRect(0, 0, snap.width, snap.height);
+			Object.keys(facesReceived).forEach(function (key) {
+				var value = facesReceived[key];
+				snap.height = 200 * iteration;
+				snap_context.drawImage(img,0,startY);
+				startX = startX + 200;
+				startY = startY + 200;
+			})
+			document.getElementById('vid-box').innerHTML = "";
+			img.data = snap.toDataURL("image/jpeg");
+			document.getElementById('vid-box').appendChild(img);
 		}
-		//console.log(message);
 	});
 	return false;
 }
@@ -181,7 +200,7 @@ function getVideo(number){
 // 	$('#logs').append("<p>"+log+"</p>");
 // }
 
-	function get_xirsys_servers() {
+function get_xirsys_servers() {
     var servers;
     // TODO: this post request giving error
     $.ajax({
@@ -214,6 +233,7 @@ function errWrap(fxn, form){
 	}
 }
 
+// send images to other people
 function send_img_loop(){
 	if(send_loop_id == null){
 		send_loop_id = setInterval(send_img, interval);
@@ -222,6 +242,7 @@ function send_img_loop(){
 	}
 }
 
+// stop sending images to other people
 function end_send_loop(){
 	if(send_loop_id == null){
 		return;
@@ -231,6 +252,7 @@ function end_send_loop(){
 }
 
 function send_img(){
+<<<<<<< HEAD
 	//var img = new Image();
 	//console.log(ctx);
 	//img.src = faceCanvas.toDataURL();
@@ -241,15 +263,14 @@ function send_img(){
 	//	console.log("not ready yet");
 	//	return;
 	//}
+=======
+>>>>>>> f9ad88ad097ae6b69ae7394c49561f90136584b7
 	var pic = phone.snap();
 	pic.data = faceCanvas.toDataURL("image/jpeg");
-	//console.log(img);
-	//console.log(pic);
-	//snap.append(pic.image);
 	phone.send({ image : pic });
 
 }
-
+/*
 function start_face_tracker(){
   console.log("print");
   var tracker = new tracking.ObjectTracker('face');
@@ -266,7 +287,6 @@ function start_face_tracker(){
   		console.log('no faces found');
   	} else {
 	  	faceContainer.innerHTML = ''; // clear the div
-	    context.clearRect(0, 0, canvas.width, canvas.height);
 
 	    // Loops through all faces found.
 	    event.data.forEach(function(rect) {
@@ -279,17 +299,37 @@ function start_face_tracker(){
 	    	singleFaceContext.drawImage(video, rect.x, rect.y, 400, 300, 
 	      						0, 0, singleFaceCanvas.width, singleFaceCanvas.height);
 	    	faceContainer.appendChild(singleFaceCanvas);
-	    	// ctx.clearRect(0, 0, faceCanvas.width, faceCanvas.height);
-	     // 	ctx.drawImage(video, rect.x, rect.y, 400, 300, 
-	     //  						0, 0, faceCanvas.width, faceCanvas.height);
 	    });
   	}
-  	
   });
+};
+*/
+function start_face_tracker(){
+  var tracker = new tracking.ObjectTracker('face');
+  tracker.setInitialScale(4);
+  tracker.setStepSize(2);
+  tracker.setEdgesDensity(0.1);
 
-  // var gui = new dat.GUI();
-  // gui.add(tracker, 'edgesDensity', 0.1, 0.5).step(0.01);
-  // gui.add(tracker, 'initialScale', 1.0, 10.0).step(0.1);
-  // gui.add(tracker, 'stepSize', 1, 5).step(0.1);
+  tracking.track('#myVideo', tracker, { camera: true }); // tracker with a camera.
+  tracker.on('track', function(event) {
+  	if(event.data.length === 0){
+  		//console.log('no faces found');
+  	} else {
+	    ctx.clearRect(0, 0, faceCanvas.width, faceCanvas.height);
+		var startX = 0;
+		var startY = 0;
+		faceCanvas.height = 200;
+		faceCanvas.width = 0;
+	    // Loops through all faces found.
+	    event.data.forEach(function(rect) {
+	    	// create a new canvas for each face	
+			faceCanvas.width += 200;
+	    	ctx.drawImage(video, rect.x, rect.y, 400, 300, 
+	      						startX, 0, faceCanvas.width, faceCanvas.height);
+			startX = startX + 200;
+			startY = startY + 200;
+	    });
+  	}
+  });
 };
 
