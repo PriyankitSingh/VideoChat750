@@ -25,29 +25,49 @@ form {
 
 a {
     color: #006699;
-
 }
 
 h2 {
     text-align: center;
 }
 
+/*feature boxes*/
 .mainVideo{
-    
+    border: 2px solid;
+    border-radius: 5px;
+    background-color: #cccccc;
+    width: 520px;
 }
 
 .login{
-
+    border: 2px solid;
+    border-radius: 5px;
+    background-color: #cccccc;
 }
 
 .otherVideos{
+    border: 2px solid;
+    border-radius: 5px;
+    background-color: #cccccc;
+    width: 500px;
+}
 
+#inCall {
+    margin-left: 39px;
+    margin-bottom: 4px;
+}
+
+.bandwidth{
+    /*background-color: #cccccc;*/
+    margin-top: 5px;
 }
 
 #myVideo {
     border: 2px solid;
     width: 420px !important;
     height: auto !important;
+    margin-left: 40px;
+    margin-right: 5%;
 }
 
 
