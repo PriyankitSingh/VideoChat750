@@ -118,6 +118,7 @@
           var friendName = friends[i].name;
           var friendId = friends[i].id;
           var friendElement = document.createElement("a");
+
           friendElement.innerHTML = "<b>"+"<img src=\"icons\\user.png\" alt=\"Profile Photo\"/> " + friends[i].name + "</b>";
           (function (friendName, friendId){
             friendElement.addEventListener('click', function(event){
