@@ -72,6 +72,7 @@ h2 {
     background: #fff;
     box-shadow: 0 3px #ccc;
     /*justify-self: center;*/
+    border-radius: 5px;
 }
 
 .grid .otherVideos{
@@ -129,7 +130,7 @@ h2 {
     padding:10px;
     width: 100%;
     height: 20%;
-    border: 2px solid #eee;
+    border: 2px solid #96908a;
     border-radius: 5px;
     overflow-x :hidden;
     overflow-y :scroll; 
@@ -194,7 +195,7 @@ h2 {
     width: 90%;
     height: 100%;
     background: #5bf4f7;
-    border: 3px solid #eee;
+    border: 1px solid #96908a;
     border-radius: 5px;
     resize: none;
     font-size: 18px;
@@ -214,12 +215,13 @@ h2 {
 }
 
 .form button{
+    margin: 0 2px;
     width: 10%;
+    height:  90%;
     background: #12b51f;
     font-size: 20px;
     color: #fff;
-    border-radius: 10px;
-    margin: 0 10px;
+    border-radius: 3px;
     box-shadow: 0 2px 0 #0eb2c1;
     cursor:  pointer;
     -webkit-transition: background .2s ease;
