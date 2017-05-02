@@ -130,7 +130,15 @@ h2 {
     border: 2px solid;
     border-radius: 5px;
     background-color: rgb(243, 239, 239);
+    padding: 10px;
 }
+
+
+.btn {
+    font-size: 10px !important;
+    padding: 3px 6px !important;
+}
+
 
 
 /*Need to make the button in the center*/
