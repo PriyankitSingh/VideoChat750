@@ -23,6 +23,8 @@ var snap_out = document.getElementById('faceImages');
 var statsContainer = document.getElementById("statsContainer");
 var facesReceived = {};
 
+var faceOnly = false;
+
 // This function measures the availableBandwidth
 function invokeGetStats(peerConnection){
 	getStats(peerConnection, function(result ) {
@@ -61,7 +63,8 @@ function setBandwidth(form){
 }
 
 function login(form) {
-
+	faceOnly = false;
+	console.log('setting up a video connection');
 	var phone = window.phone =
 	PHONE({
 	    number        : form.username.value || "Anonymous",
@@ -144,6 +147,98 @@ function login(form) {
 	return false;
 }
 
+//-----------------------------------------------------------------------------
+//TESTING
+function loginFaceOnly(form) {
+	faceOnly = true;
+	console.log('setting up a face only connection');
+	var phone = window.phone =
+	PHONE({
+	    number        : form.username.value || "Anonymous",
+		autocam				: false,
+		publish_key   : 'pub-c-561a7378-fa06-4c50-a331-5c0056d0163c', // Your Pub Key
+	    subscribe_key : 'sub-c-17b7db8a-3915-11e4-9868-02ee2ddab7fe', // Your Sub Key
+		media : {audio :true, video: true}
+	    //publish_key   : 'pub-c-4972d566-854b-41ef-9f97-25d40f968e28',
+	    //subscribe_key : 'sub-c-0369f0f0-0bc7-11e7-9734-02ee2ddab7fe',
+	});
+
+	var ctrl = window.ctrl = CONTROLLER(phone, get_xirsys_servers);
+	ctrl.ready(function(){
+			form.username.style.background="#55ff5b";
+			form.login_submit.hidden="true";
+			//Here we possibly want to minimise the user's screen
+			//ctrl.addLocalStream(video);
+			//addLog("Logged in as " + form.username.value);
+			start_face_tracker();
+			console.log("Logged in as " + form.username.value);
+	});
+	ctrl.receive(function(session){
+	    session.connected(function(session){
+			sessionList.push(session);
+			video_out.appendChild(session.video);
+			var sessionRTCPeerConnection = session.pc;
+			invokeGetStats(sessionRTCPeerConnection);			
+			send_img_loop();
+			console.log(session.number + " has joined.");
+			vidCount++; });
+
+	    session.ended(function(session) {
+			var index = sessionList.indexOf(session);
+			sessionList.splice(index,1);
+			ctrl.getVideoElement(session.number).remove();
+			//addLog(session.number + " has left.");
+			console.log(session.number + " has left.");
+			vidCount--;});
+	});
+
+	ctrl.audioToggled(function(session, isEnabled){
+		ctrl.getVideoElement(session.number).css("opacity",isEnabled ? 1 : 0.75);
+		//addLog(session.number+": audio enabled - " + isEnabled);
+		console.log(session.number+": audio enabled - " + isEnabled);
+	});
+	phone.message(function(session,message){
+		console.log("received image");
+		var img = new Image();
+		img.src = message.image.data;
+		facesReceived[session.number] = img;
+		snap.width = 200;
+		snap.height = 200;
+		var iteration = 1;
+		var startX = 0;
+		var startY = 0;
+		img.onload = function(){
+			snap_context.clearRect(0, 0, snap.width, snap.height);
+			Object.keys(facesReceived).forEach(function (key) {
+				var value = facesReceived[key];
+				snap.height = 200 * iteration;
+				snap_context.drawImage(img,0,startY);
+				startX = startX + 200;
+				startY = startY + 200;
+			})
+			snap_out.innerHTML = "";
+			img.data = snap.toDataURL("image/jpeg");
+			snap_out.appendChild(img);
+		}
+	});
+	return false;
+}
+
+function toggleQuality(){
+	end();
+	var loginForm = document.getElementById("login");
+	var callForm = document.getElementById("call")
+	if(faceOnly){
+		login(loginForm);
+	} else {
+		loginFaceOnly(loginForm);
+	}
+	// TODO toggle just for testing
+	toggle();
+	makeCall(callForm);
+}
+
+//--------------------------------------------------
 function makeCall(form){
 	if (!window.phone) alert("Login First!");
 	var num = form.number.value;
