@@ -13,11 +13,11 @@
 	   <script src="scripts/FacebookLogin.js"></script>
 	   <div class= "topbanner">
 	   		<div class ="logo"><img src="icons/logo3.png"/> </div>
+	   		<fb:login-button class="loginbutton" scope="public_profile,email,user_friends" onlogin="checkLoginState();"></fb:login-button>
 	   </div>
 	   <div class="grid">
 	       
 	    	<div class="login">
-	            <fb:login-button scope="public_profile,email,user_friends" onlogin="checkLoginState();"></fb:login-button>
 	            
 	          <div id="status"></div>
 	       		<!-- TODO: need to remove one (or both) of the forms -->
