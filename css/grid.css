@@ -1,20 +1,13 @@
+
+* {
+    margin: 5;
+    padding: 5;
+    box-sizing: border-box;
+}
 body {
-    background-color: #e6e6e6;
+    background:  #1ddced;
+    margin: auto;
     font-family: Arial, Helvetica, sans-serif;
-}
-
-.grid {
-    display: grid;
-    width: 100%;
-    grid-template-columns: 25% auto auto;
-    grid-template-rows: auto 50%;
-    justify-items: center;
-}
-
-.grid .login {
-    justify-self: center;
-    padding: 2%;
-
 }
 
 form {
@@ -31,12 +24,89 @@ h2 {
     text-align: center;
 }
 
-/*feature boxes*/
-.mainVideo{
-    border: 2px solid;
+.topbanner{
+    margin: 3px;
+    width: 100%;
+    height: 45px;   
+    border-bottom: 1px solid white;
+}
+
+.topbanner .logo{
+    width: 70px;
+    height: 45px;
+    overflow: hidden;
+
+}
+
+.topbanner .logo img{
+    width: 100%;
+    height: 100%;
+}
+
+.grid {
+    /*display: grid;*/
+    width: 100%;
+    height: 100%;
+   /* grid-template-columns: 25% auto auto;
+    grid-template-rows: auto 50%;
+    justify-items: center;*/
+}
+
+.grid .login {
+    width: 14%;
+    height: 700px;
+    border: 1px solid white;
+    float: left;
+    justify-self: center;
+}
+
+
+.grid .chatbox{
+    position: relative;
+    width: 60%;
+    height: 700px;
+    border: 1px solid white;
+    float: left;
+    min-height: 100px;
+    min-width: 450px;
+    background: #fff;
+    box-shadow: 0 3px #ccc;
+    /*justify-self: center;*/
+}
+
+.grid .otherVideos{
+    width: 26%;
+    height: 700px;
+    border: 1px solid white;
+    float: left;
+    min-height: 450px;
+    justify-self: center;
     border-radius: 5px;
     background-color: #cccccc;
-    width: 520px;
+}
+
+/*feature boxes*/
+.grid .chatbox .mainVideo{
+    width: 100%;
+    height: 75%;
+    top:0px;
+    border: 1px solid;
+    border-radius: 5px;
+    background-color: #cccccc;
+}
+
+#myVideo {
+/*    border: 1px solid;
+    width: 420px !important;
+    height: auto !important;
+    margin-left: 40px;
+    margin-right: 5%;*/
+    position: relative;
+    width: 100% ;
+    height: 100%;
+    margin-left: 40px;
+    margin-right: 5%;
+
 }
 
 .login{
@@ -45,29 +115,119 @@ h2 {
     background-color: #cccccc;
 }
 
-.otherVideos{
-    border: 2px solid;
-    border-radius: 5px;
-    background-color: #cccccc;
-    width: 500px;
-}
 
-#inCall {
+/*Need to make the button in the center*/
+.grid .chatbox .mainVideo #inCall {
+    /*width: 100%;*/
     margin-left: 39px;
     margin-bottom: 4px;
+    align-items: center;
 }
 
-.bandwidth{
-    /*background-color: #cccccc;*/
-    margin-top: 5px;
+
+.chatbox .chatlogs{
+    padding:10px;
+    width: 100%;
+    height: 20%;
+    border: 2px solid #eee;
+    border-radius: 5px;
+    overflow-x :hidden;
+    overflow-y :scroll; 
+    background:#e5f7fc;
+}
+.chatlogs::-webkit-scrollbar {
+    width: 10px;
+}
+.chatlogs::-webkit-scrollbar-thumb{
+    border-radius: : 5px;
+    background: rgba(0,0,0,0.1);
+}
+.chat {
+    display: flex;
+    flex-flow: row wrap;
+    align-items: flex-start;
+}
+.chat .photo{
+    margin: 5px;
+    width: 40px;
+    height: 40px;
+    background: #ccc;
+    border-radius: 50%;
+    overflow: hidden;
 }
 
-#myVideo {
-    border: 2px solid;
-    width: 420px !important;
-    height: auto !important;
-    margin-left: 40px;
-    margin-right: 5%;
+.chat .photo img{
+    width: 100%;
 }
 
+.chat .message{
+    width: 93%;
+    padding: 10px;
+    margin: 5px 5px 0;
+    background: #1ddced;
+    border-radius: 10px;
+    color:  #fff;
+    font-size: 14px;
+}
+
+.friend .message {
+    background: #1adda4;
+
+}
+
+.self .message {
+    background: #1ddced;
+    order: -1;
+}
+
+.chatbox .form{
+    width: 100%;
+    height: 5%;
+    bottom: 5px;
+    right: 5px;
+    left:  5px;
+    display: flex;
+    align-items: flex-start ;
+}
+
+.form textarea {
+    width: 90%;
+    height: 100%;
+    background: #5bf4f7;
+    border: 3px solid #eee;
+    border-radius: 5px;
+    resize: none;
+    font-size: 18px;
+    color: #333;
+}
+
+.form textarea:focus {
+    background:#fff;
+}
+
+.form textarea::-webkit-scrollbar {
+    width: 10px;
+}
+.form textarea::-webkit-scrollbar-thumb{
+    border-radius: : 5px;
+    background: rgba(0,0,0,0.1);
+}
+
+.form button{
+    width: 10%;
+    background: #12b51f;
+    font-size: 20px;
+    color: #fff;
+    border-radius: 10px;
+    margin: 0 10px;
+    box-shadow: 0 2px 0 #0eb2c1;
+    cursor:  pointer;
+    -webkit-transition: background .2s ease;
+    -moz-transition: background .2s ease;
+    -o-transition: background .2s ease;
+}
+
+.form button:hover {
+    background: #5112e5;
+}
 
