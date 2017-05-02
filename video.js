@@ -1,4 +1,5 @@
 var video_out = document.getElementById("vid-box");
+var othervideos = document.getElementById("othercallervideos");
 //var vid_thumb = document.getElementById("vid-thumb");
 
 //var snap = document.getElementById("snap");
@@ -21,19 +22,13 @@ var isSnapVisible = false;
 var snap_out = document.getElementById('faceImages');
 
 var participantBandwidths = [];
-<<<<<<< HEAD
+
 var phone;
 var chatlogs = document.getElementById('chatlogs');
 
 // This function measures the video availableBandwidth
-=======
-
-
-// This function measures the availableBandwidth
->>>>>>> 6d9597540a5fa64f6fb2a16857e3d5f3a8adcb3f
 function invokeGetStats(peerConnection){
 	getStats(peerConnection, function(result ) {
-		var tableRow =  document.getElementById('peer-stats-' + peerConnection.number);
 		participantBandwidths[peerConnection.number]=  result.video.availableBandwidth;
 		console.log(peerConnection.number +": " +participantBandwidths[peerConnection.number]);
 		if (result.datachannel && result.datachannel.state === 'close') {
@@ -54,17 +49,10 @@ function setBandwidth(form){
 
 function login(form) {
 
-<<<<<<< HEAD
 	phone = window.phone =
 	PHONE({
 	    number        : form.username.value || "Anonymous",
 		autocam		  : false,
-=======
-	var phone = window.phone =
-	PHONE({
-	    number        : form.username.value || "Anonymous",
-		autocam				: false,
->>>>>>> 6d9597540a5fa64f6fb2a16857e3d5f3a8adcb3f
 		publish_key   : 'pub-c-561a7378-fa06-4c50-a331-5c0056d0163c', // Your Pub Key
 	    subscribe_key : 'sub-c-17b7db8a-3915-11e4-9868-02ee2ddab7fe', // Your Sub Key
 		media : {audio :true, video: true}
@@ -85,7 +73,11 @@ function login(form) {
 	ctrl.receive(function(session){
 	    session.connected(function(session){
 			sessionList.push(session);
-			video_out.appendChild(session.video);
+			var listItem = document.createElement('li');
+			listItem.id= "callee" +session.number;
+			listItem.appendChild(session.video);
+			othervideos.appendChild(listItem);
+			//video_out.appendChild(session.video);
 			var sessionRTCPeerConnection = session.pc;
 			invokeGetStats(sessionRTCPeerConnection);
 			//Adding button for kicking a session
@@ -94,14 +86,14 @@ function login(form) {
 			//addLog(session.number + " has joined.");
 			console.log(session.number + " has joined.");
 			vidCount++; });
-<<<<<<< HEAD
-=======
 
->>>>>>> 6d9597540a5fa64f6fb2a16857e3d5f3a8adcb3f
 	    session.ended(function(session) {
 			var index = sessionList.indexOf(session);
 			sessionList.splice(index,1);
 			ctrl.getVideoElement(session.number).remove();
+			var listItem = document.getElementById('callee'+session.number);
+			listItem.outerHTML ="";
+			delete listItem;
 			//addLog(session.number + " has left.");
 			console.log(session.number + " has left.");
 			vidCount--;});
@@ -117,7 +109,6 @@ function login(form) {
 		//addLog(session.number+": audio enabled - " + isEnabled);
 		console.log(session.number+": audio enabled - " + isEnabled);
 	});
-<<<<<<< HEAD
 
 	phone.message(function(session,message){
 		console.log("received image");
@@ -158,30 +149,6 @@ function login(form) {
     		friendDiv.appendChild(text);
     		chatlogs.appendChild(friendDiv);
     		chatlogs.scrollTop=chatlogs.scrollHeight;
-=======
-	phone.message(function(session,message){
-		console.log("received image");
-		var img = new Image();
-		img.src = message.image.data;
-		facesReceived[session.number] = img;
-		snap.width = 200;
-		snap.height = 200;
-		var iteration = 1;
-		var startX = 0;
-		var startY = 0;
-		img.onload = function(){
-			snap_context.clearRect(0, 0, snap.width, snap.height);
-			Object.keys(facesReceived).forEach(function (key) {
-				var value = facesReceived[key];
-				snap.height = 200 * iteration;
-				snap_context.drawImage(img,0,startY);
-				startX = startX + 200;
-				startY = startY + 200;
-			})
-			snap_out.innerHTML = "";
-			img.data = snap.toDataURL("image/jpeg");
-			snap_out.appendChild(img);
->>>>>>> 6d9597540a5fa64f6fb2a16857e3d5f3a8adcb3f
 		}
 	});
 	return false;
@@ -387,8 +354,6 @@ function start_face_tracker(){
   	}
   });
 };
-<<<<<<< HEAD
-
 
 function sendMessage(){
 	var  tbox = document.getElementById("messageBox");
@@ -413,5 +378,3 @@ function sendMessage(){
     	tbox.value='';
 	}
 }
-=======
->>>>>>> 6d9597540a5fa64f6fb2a16857e3d5f3a8adcb3f
