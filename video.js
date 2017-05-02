@@ -20,33 +20,18 @@ var send_loop_id = null;
 var isSnapVisible = false;
 var snap_out = document.getElementById('faceImages');
 
-var statsContainer = document.getElementById("statsContainer");
-var facesReceived = {};
+var participantBandwidths = [];
+
 
 // This function measures the availableBandwidth
 function invokeGetStats(peerConnection){
 	getStats(peerConnection, function(result ) {
 		var tableRow =  document.getElementById('peer-stats-' + peerConnection.number);
-		if(!tableRow) {
-			tableRow = document.createElement('tr');
-			tableRow.id ='peer-stats-' + peerConnection.number;
-			//console.log(tableRow.id);
-			statsContainer.appendChild(tableRow);
-		}
-
-		var rowElements = '<td>' + peerConnection.number + '</td>';
-
-        if(result.audio.availableBandwidth) {
-            rowElements += '<td>' + result.audio.availableBandwidth + ' kbps</td>';
-        }
-		if(result.video.availableBandwidth) {
-			rowElements += '<td>' + result.video.availableBandwidth + ' kbps</td>';
-		}
-
-		tableRow.innerHTML = rowElements;
-
+		participantBandwidths[peerConnection.number]=  result.video.availableBandwidth;
+		console.log(peerConnection.number +": " +participantBandwidths[peerConnection.number]);
 		if (result.datachannel && result.datachannel.state === 'close') {
-			tableRow.parentNode.removeChild(tr);
+			delete dic[peerConnection.number];
+			console.log("removed" + peerConnection.number);
 			result.nomore();
 		}
 		window.getStatsResult = result;
@@ -89,11 +74,6 @@ function login(form) {
 			video_out.appendChild(session.video);
 			var sessionRTCPeerConnection = session.pc;
 			invokeGetStats(sessionRTCPeerConnection);
-<<<<<<< HEAD
-
-			send_img_loop();
-=======
->>>>>>> f9ad88ad097ae6b69ae7394c49561f90136584b7
 			//Adding button for kicking a session
 			//var kickbtn = document.createElement("button");
 			//video_out.appendChild(kickbtn);
@@ -254,19 +234,7 @@ function end_send_loop(){
 }
 
 function send_img(){
-<<<<<<< HEAD
-	//var img = new Image();
-	//console.log(ctx);
-	//img.src = faceCanvas.toDataURL();
-	//console.log(ctx);
-	//console.log(phone);
-	//console.log(ctrl);
-	//if(my_session == null){
-	//	console.log("not ready yet");
-	//	return;
-	//}
-=======
->>>>>>> f9ad88ad097ae6b69ae7394c49561f90136584b7
+
 	var pic = phone.snap();
 	pic.data = faceCanvas.toDataURL("image/jpeg");
 	phone.send({ image : pic });
@@ -311,11 +279,20 @@ function start_face_tracker(){
 	    	singleFaceCanvas.width = 200;
 	    	var singleFaceContext = singleFaceCanvas.getContext('2d');
 
-	    	singleFaceContext.drawImage(video, rect.x, rect.y, 400, 300, 
+	    	singleFaceContext.drawImage(video, rect.x, rect.y, 400, 300,
 	      						0, 0, singleFaceCanvas.width, singleFaceCanvas.height);
 	    	faceContainer.appendChild(singleFaceCanvas);
+<<<<<<< HEAD
 	    });
   	}
+=======
+	    	// ctx.clearRect(0, 0, faceCanvas.width, faceCanvas.height);
+	     // 	ctx.drawImage(video, rect.x, rect.y, 400, 300,
+	     //  						0, 0, faceCanvas.width, faceCanvas.height);
+	    });
+  	}
+
+>>>>>>> 026951c2a077bbffdb6097dcc12aeb37325cb002
   });
 };
 */
@@ -347,4 +324,3 @@ function start_face_tracker(){
   	}
   });
 };
-
