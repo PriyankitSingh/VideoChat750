@@ -3,6 +3,12 @@
 <html>
 
 	<head>
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.css"></script>
+
 		<link rel="stylesheet" type="text/css" href="css/grid.css">
 		<!--<link rel="stylesheet" type="text/css" href="css/chatbox.css">-->
 	</head>
@@ -23,18 +29,18 @@
 	       		<!-- TODO: need to remove one (or both) of the forms -->
 				<form name="loginForm" id="login" action="#" onsubmit="return loginPubnub();">Please log in.
 				    <input type="text" name="username" id="username" placeholder="Pick a username!" />
-				    <input type="submit" name="login_submit" value="Log In">
+				    <input type="submit" class="btn btn-success" name="login_submit" value="Log In">
 				</form>
 
 				<form name="callForm" id="call" action="#" onsubmit="return makeCall(this);">Call someone!
 					<input type="text" name="number" placeholder="Enter user to dial!" />
-					<input type="submit" value="Call"/>
+					<input type="submit" class="btn btn-success" value="Call"/>
 				</form>
 
 				<!-- This is for testing, might replace with something else later -->
 				<form name="TestBandwidth" id="bandwidthForm" action ="#" onsubmit="setBandwidth(this)">Set your bandwidth.
 				    <input type="text" name="bandwidth" id= "bandwidth" value="250"> kbps
-				    <input type="submit" value="Set bandwidth" >
+				    <input type="submit" class="btn btn-success" value="Set bandwidth" >
 				</form>
 	      		<br><h3>Your Facebook friends:</h3><br>
 	       		<div id="friends-container" class="sidebar"></div>
@@ -86,3 +92,4 @@
 	<script src="../tracking.js-master/build/tracking-min.js"></script>
 	<!-- <script src="../node_modules/dat.gui/build/dat.gui.min.js"></script> -->
 	<script src="../tracking.js-master/build/data/face-min.js"></script>
+	<!-- Latest compiled and minified CSS -->

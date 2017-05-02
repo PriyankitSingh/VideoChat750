@@ -20,6 +20,7 @@ a {
     color: #006699;
 }
 
+
 h2 {
     text-align: center;
 }
@@ -92,7 +93,7 @@ h2 {
     min-height: 450px;
     justify-self: center;
     border-radius: 5px;
-    background-color: #cccccc;
+    background-color: rgb(243, 239, 239);
 }
 
 /*feature boxes*/
@@ -128,7 +129,7 @@ h2 {
 .login{
     border: 2px solid;
     border-radius: 5px;
-    background-color: #cccccc;
+    background-color: rgb(243, 239, 239);
 }
 
 
