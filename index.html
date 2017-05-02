@@ -11,7 +11,10 @@
 		<!-- this script has to be in the beginning of body -->
 		<script src="scripts/FacebookLogin.js"></script>
 
-		<div id="friends-container" class="sidebar"></div>
+		<div id="friends-container" class="sidebar">
+			<ul id="contactList">
+			</ul>
+		</div>
 
 		<div class= "userVideoContainer">
 			<hr>
@@ -39,7 +42,7 @@
 			<fb:login-button scope="public_profile,email,user_friends" onlogin="checkLoginState();"></fb:login-button>
 
 			<!-- TODO: need to remove one (or both) of the forms -->
-			<form name="loginForm" id="login" action="#" onsubmit="return loginPubnub();">
+			<form name="loginForm" id="login" action="#" onsubmit="return login(this);">
 			    <input type="text" name="username" id="username" placeholder="Pick a username!" />
 			    <input type="submit" name="login_submit" value="Log In">
 			</form>
@@ -58,14 +61,6 @@
 			<div id="inCall"> <!-- Buttons for in call features -->
 				<button id="end" onclick="end()">End</button> <button id="mute" onclick="mute()">Mute</button> <button id="pause" onclick="pause()">Pause</button>
 			</div>
-			<table >
-			    <thread>
-			        <th> Peer </th>
-			        <th> AudioAvailableBandwidth </th>
-			        <th> VideoAvailBandwidth</th>
-			    </thread>
-			    <tbody id="statsContainer"></tbody>
-			</table>
 		</div>
 
 		<div class="otherVideoContainer">
