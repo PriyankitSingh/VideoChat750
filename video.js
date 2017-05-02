@@ -19,32 +19,17 @@ var ctx = faceCanvas.getContext('2d');
 var interval = 1000;
 var send_loop_id = null;
 
-var statsContainer = document.getElementById("statsContainer");
+var participantBandwidths = [];
 
 // This function measures the availableBandwidth
 function invokeGetStats(peerConnection){
 	getStats(peerConnection, function(result ) {
 		var tableRow =  document.getElementById('peer-stats-' + peerConnection.number);
-		if(!tableRow) {
-			tableRow = document.createElement('tr');
-			tableRow.id ='peer-stats-' + peerConnection.number;
-			//console.log(tableRow.id);
-			statsContainer.appendChild(tableRow);
-		}
-
-		var rowElements = '<td>' + peerConnection.number + '</td>';
-
-        if(result.audio.availableBandwidth) {
-            rowElements += '<td>' + result.audio.availableBandwidth + ' kbps</td>';
-        }
-		if(result.video.availableBandwidth) {
-			rowElements += '<td>' + result.video.availableBandwidth + ' kbps</td>';
-		}
-
-		tableRow.innerHTML = rowElements;
-
+		participantBandwidths[peerConnection.number]=  result.video.availableBandwidth;
+		console.log(peerConnection.number +": " +participantBandwidths[peerConnection.number]);
 		if (result.datachannel && result.datachannel.state === 'close') {
-			tableRow.parentNode.removeChild(tr);
+			delete dic[peerConnection.number];
+			console.log("removed" + peerConnection.number);
 			result.nomore();
 		}
 		window.getStatsResult = result;
@@ -276,15 +261,15 @@ function start_face_tracker(){
 	    	singleFaceCanvas.width = 200;
 	    	var singleFaceContext = singleFaceCanvas.getContext('2d');
 
-	    	singleFaceContext.drawImage(video, rect.x, rect.y, 400, 300, 
+	    	singleFaceContext.drawImage(video, rect.x, rect.y, 400, 300,
 	      						0, 0, singleFaceCanvas.width, singleFaceCanvas.height);
 	    	faceContainer.appendChild(singleFaceCanvas);
 	    	// ctx.clearRect(0, 0, faceCanvas.width, faceCanvas.height);
-	     // 	ctx.drawImage(video, rect.x, rect.y, 400, 300, 
+	     // 	ctx.drawImage(video, rect.x, rect.y, 400, 300,
 	     //  						0, 0, faceCanvas.width, faceCanvas.height);
 	    });
   	}
-  	
+
   });
 
   // var gui = new dat.GUI();
@@ -292,4 +277,3 @@ function start_face_tracker(){
   // gui.add(tracker, 'initialScale', 1.0, 10.0).step(0.1);
   // gui.add(tracker, 'stepSize', 1, 5).step(0.1);
 };
-
