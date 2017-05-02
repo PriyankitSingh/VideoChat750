@@ -21,9 +21,10 @@ var isSnapVisible = false;
 var snap_out = document.getElementById('faceImages');
 
 var participantBandwidths = [];
+var phone;
+var chatlogs = document.getElementById('chatlogs');
 
-
-// This function measures the availableBandwidth
+// This function measures the video availableBandwidth
 function invokeGetStats(peerConnection){
 	getStats(peerConnection, function(result ) {
 		var tableRow =  document.getElementById('peer-stats-' + peerConnection.number);
@@ -47,10 +48,10 @@ function setBandwidth(form){
 
 function login(form) {
 
-	var phone = window.phone =
+	phone = window.phone =
 	PHONE({
 	    number        : form.username.value || "Anonymous",
-		autocam				: false,
+		autocam		  : false,
 		publish_key   : 'pub-c-561a7378-fa06-4c50-a331-5c0056d0163c', // Your Pub Key
 	    subscribe_key : 'sub-c-17b7db8a-3915-11e4-9868-02ee2ddab7fe', // Your Sub Key
 		media : {audio :true, video: true}
@@ -80,7 +81,6 @@ function login(form) {
 			//addLog(session.number + " has joined.");
 			console.log(session.number + " has joined.");
 			vidCount++; });
-
 	    session.ended(function(session) {
 			var index = sessionList.indexOf(session);
 			sessionList.splice(index,1);
@@ -100,28 +100,46 @@ function login(form) {
 		//addLog(session.number+": audio enabled - " + isEnabled);
 		console.log(session.number+": audio enabled - " + isEnabled);
 	});
+
 	phone.message(function(session,message){
 		console.log("received image");
-		var img = new Image();
-		img.src = message.image.data;
-		facesReceived[session.number] = img;
-		snap.width = 200;
-		snap.height = 200;
-		var iteration = 1;
-		var startX = 0;
-		var startY = 0;
-		img.onload = function(){
-			snap_context.clearRect(0, 0, snap.width, snap.height);
-			Object.keys(facesReceived).forEach(function (key) {
-				var value = facesReceived[key];
-				snap.height = 200 * iteration;
-				snap_context.drawImage(img,0,startY);
-				startX = startX + 200;
-				startY = startY + 200;
-			})
-			snap_out.innerHTML = "";
-			img.data = snap.toDataURL("image/jpeg");
-			snap_out.appendChild(img);
+		if(message.hasOwnProperty("image")){
+			var img = new Image();
+			img.src = message.image.data;
+			facesReceived[session.number] = img;
+			snap.width = 200;
+			snap.height = 200;
+			var iteration = 1;
+			var startX = 0;
+			var startY = 0;
+			img.onload = function(){
+				snap_context.clearRect(0, 0, snap.width, snap.height);
+				Object.keys(facesReceived).forEach(function (key) {
+					var value = facesReceived[key];
+					snap.height = 200 * iteration;
+					snap_context.drawImage(img,0,startY);
+					startX = startX + 200;
+					startY = startY + 200;
+				})
+				snap_out.innerHTML = "";
+				img.data = snap.toDataURL("image/jpeg");
+				snap_out.appendChild(img);
+			}
+		}else{
+			var friendDiv = document.createElement('div');
+    		friendDiv.className ="chat friend";
+    		var friendPhoto = document.createElement('div');
+    		friendPhoto.className ="photo";
+    		var image = document.createElement('img');
+    		image.src="icons/minion2.png";
+    		friendPhoto.appendChild(image);
+    		var text = document.createElement('p');
+    		text.className="message";
+    		text.innerHTML=message.text;
+    		friendDiv.appendChild(friendPhoto);
+    		friendDiv.appendChild(text);
+    		chatlogs.appendChild(friendDiv);
+    		chatlogs.scrollTop=chatlogs.scrollHeight;
 		}
 	});
 	return false;
@@ -327,3 +345,28 @@ function start_face_tracker(){
   	}
   });
 };
+
+
+function sendMessage(){
+	var  tbox = document.getElementById("messageBox");
+	var message=  tbox.value;
+	console.log(phone);
+	if(phone && message != ''){
+		phone.send({text: message});
+		var selfDiv = document.createElement('div');
+    	selfDiv.className ="chat self";
+    	var selfPhoto = document.createElement('div');
+    	selfPhoto.className ="photo";
+    	var image = document.createElement('img');
+    	image.src="icons/minion1.png";
+    	selfPhoto.appendChild(image);
+    	var text = document.createElement('p');
+    	text.className="message";
+    	text.innerHTML=message;
+    	selfDiv.appendChild(selfPhoto);
+    	selfDiv.appendChild(text);
+    	chatlogs.appendChild(selfDiv);
+    	chatlogs.scrollTop=chatlogs.scrollHeight;
+    	tbox.value='';
+	}
+}
