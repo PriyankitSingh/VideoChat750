@@ -4,67 +4,91 @@
 <html>
 
 	<head>
-	<link rel="stylesheet" type="text/css" href="css/stylesheet.css">
+		<link rel="stylesheet" type="text/css" href="css/grid.css"> 
 	</head>
 
 	<body onunload="end()">
 		<!-- this script has to be in the beginning of body -->
 		<script src="scripts/FacebookLogin.js"></script>
 
-		<div id="friends-container" class="sidebar">
-			<ul id="contactList">
-			</ul>
-		</div>
+		<div class= "topbanner">
+	   		<div class ="logo"><img src="icons/logo3.png"/> </div>
+	   		<fb:login-button class="loginbutton" scope="public_profile,email,user_friends" onlogin="checkLoginState();"></fb:login-button>
+	   </div>
+		
+		 <div class="grid">
+	       
+	    	<div class="login">
+	            
+	          <div id="status"></div>
+	       		<!-- TODO: need to remove one (or both) of the forms -->
+				<form name="loginForm" id="login" action="#" onsubmit="return login(this);">Please log in.
+				    <input type="text" name="username" id="username" placeholder="Pick a username!" />
+				    <input type="submit" name="login_submit" value="Log In">
+				</form>
 
-		<div class= "userVideoContainer">
-			<hr>
-				Other Users Cam
-				<div id="vid-box"></div>
-			<hr>
-				Local Cam
-				<video id="myVideo" width="400" height="300" preload autoplay loop muted></video>
-			<hr>
-				<div id="fail_message"></div>
-			<hr>
+				<form name="callForm" id="call" action="#" onsubmit="return makeCall(this);">Call someone!
+					<input type="text" name="number" placeholder="Enter user to dial!" />
+					<input type="submit" value="Call"/>
+				</form>
 
-			<canvas id="canvas" width="320" height="240"></canvas>
-			<hr>
-				Local Face Canvas
-				<div id="faceContainer"></div>
-				<canvas id="faceOnly" width="200" height="200"></canvas>
-			<hr>
-				Other User Face Canvas
-				<canvas id="snap" width="200" height="200"></canvas>
-			<hr>
+				<!-- This is for testing, might replace with something else later -->
+				<form name="TestBandwidth" id="bandwidthForm" action ="#" onsubmit="setBandwidth(this)">Set your bandwidth.
+				    <input type="text" name="bandwidth" id= "bandwidth" value="250"> kbps
+				    <input type="submit" value="Set bandwidth" >
+				</form>
+	      		<br><h3>Your Facebook friends:</h3><br>
+	       		<div id="friends-container" class="sidebar"></div>
+			</div> 
+			
+			<!--Chat box -->
+	   	 	<div class ="chatbox">
+	    	
+	    		<!-- <hr width="1" size="500"> -->
+	       		<div class="mainVideo">
+	       			<!-- <h2>Main Video</h2> -->
+		    		<div class= "userVideoContainer">
+		    			<video id="myVideo" preload autoplay loop muted></video>
+		    		</div>
+		    		<div id="inCall"> <!-- Buttons for in call features -->
+						<button id="end" onclick="end()">End</button> <button id="mute" onclick="mute()">Mute</button> <button id="pause" onclick="pause()">Pause</button>
+					</div>
+	      	 	</div>
 
-			<div id="status"></div>
-			<fb:login-button scope="public_profile,email,user_friends" onlogin="checkLoginState();"></fb:login-button>
+    			<div class ="chatlogs">
+    				<div class ="chat friend">
+    					<div class ="photo"></div>
+    		 			<p class ="message">Hey! </p>
+    				</div>
+    	 			<div class ="chat self">
+   			 			<div class ="photo"></div>
+   			 			<p class ="message">Hello! </p>
+   					</div>
+   				</div>
+    			<div class ="form">
+    				<textarea></textarea>
+    				<button>Send</button>
+   				</div>
+   			</div>
 
-			<!-- TODO: need to remove one (or both) of the forms -->
-			<form name="loginForm" id="login" action="#" onsubmit="return login(this);">
-			    <input type="text" name="username" id="username" placeholder="Pick a username!" />
-			    <input type="submit" name="login_submit" value="Log In">
-			</form>
-
-			<form name="callForm" id="call" action="#" onsubmit="return makeCall(this);">
-				<input type="text" name="number" placeholder="Enter user to dial!" />
-				<input type="submit" value="Call"/>
-			</form>
-
-			<!-- This is for testing, might replace with something else later -->
-			<form name="TestBandwidth" id="bandwidthForm" action ="#" onsubmit="setBandwidth(this)">
-			    <input type="text" name="bandwidth" id= "bandwidth" value="250"> kbps
-			    <input type="submit" value="Set bandwidth" >
-			</form>
-
-			<div id="inCall"> <!-- Buttons for in call features -->
-				<button id="end" onclick="end()">End</button> <button id="mute" onclick="mute()">Mute</button> <button id="pause" onclick="pause()">Pause</button>
-			</div>
-		</div>
-
-		<div class="otherVideoContainer">
-
-		</div>
+	       	<div class="otherVideos">
+	       		<h2>Other videos</h2><br>
+		    	<div id="vid-box"></div>
+				<div id="faceImages" style="display:none;"></div>
+	       </div>
+	   </div>
+	   
+	   <!-- Have this so the videojs doesnt break will remove later -->
+	   <canvas id="canvas" width="320" height="240"></canvas>
+		<hr>
+			Local Face Canvas
+			<div id="faceContainer"></div>
+			<canvas id="faceOnly" width="200" height="200"></canvas>
+		<hr>
+			Other User Face Canvas
+			<canvas id="snap" width="200" height="200"></canvas>
+		<hr>
+		<!-- ------------TO BE REMOVED------------- -->
 
 	</body>
 

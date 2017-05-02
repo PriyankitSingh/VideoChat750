@@ -1,11 +1,17 @@
+* {
+    margin: 5;
+    padding:; 5;
+    font-family: tahoma, san-serif; 
+    box-sizing: border-box;
+}
 
 .container { position:relative; padding:0 0 0 55px; }
 
 .sidebar {
 	height: 100%;
-	width: 10%;	
+	width: 10%;
 	position: fixed;
-	z-index: 1; 
+	z-index: 1;
     top: 0;
     left: 0;
     background-color: #111; /* Black*/
@@ -38,3 +44,4 @@
     padding: 20px;
     margin-left: 10%;
 }
+
