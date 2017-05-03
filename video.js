@@ -136,7 +136,7 @@ function login(form) {
 				snap_img.src = snap.toDataURL("image/jpeg");
 				snap_out.appendChild(snap_img);
 			}
-		}else{
+		}else if(message.hasOwnProperty("toggleBandwidth")){
 			var friendDiv = document.createElement('div');
     		friendDiv.className ="chat friend";
     		var friendPhoto = document.createElement('div');
@@ -151,6 +151,10 @@ function login(form) {
     		friendDiv.appendChild(text);
     		chatlogs.appendChild(friendDiv);
     		chatlogs.scrollTop=chatlogs.scrollHeight;
+		}else if (message.hasOwnProperty("toggleBandwidth")){
+			console.log("Toggle Bandwidth:" + message.toggleBandwidth);
+			//Code for user to execute when they recieve toggle message
+			
 		}
 	});
 	return false;
@@ -379,4 +383,9 @@ function sendMessage(){
     	chatlogs.scrollTop=chatlogs.scrollHeight;
     	tbox.value='';
 	}
+}
+
+function send_toggle_message(){
+	var toggle = true;
+	phone.send({ toggleBandwidth : toggle });
 }
