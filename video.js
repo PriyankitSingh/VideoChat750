@@ -111,30 +111,32 @@ function login(form) {
 	});
 
 	phone.message(function(session,message){
-		console.log("received image");
+		//console.log("received image");
 		if(message.hasOwnProperty("image")){
 			var img = new Image();
 			img.src = message.image.data;
 			facesReceived[session.number] = img;
+			var height = 0
+			Object.keys(facesReceived).forEach(function (key) {
+				height += 200;
+			})
 			snap.width = 200;
-			snap.height = 200;
-			var iteration = 1;
-			var startX = 0;
+			snap.height = height;
 			var startY = 0;
 			img.onload = function(){
 				snap_context.clearRect(0, 0, snap.width, snap.height);
 				Object.keys(facesReceived).forEach(function (key) {
+					console.log("drawing face:" + key);
 					var value = facesReceived[key];
-					snap.height = 200 * iteration;
-					snap_context.drawImage(img,0,startY);
-					startX = startX + 200;
+					snap_context.drawImage(value,0,startY);
 					startY = startY + 200;
 				})
 				snap_out.innerHTML = "";
-				img.data = snap.toDataURL("image/jpeg");
-				snap_out.appendChild(img);
+				var snap_img = new Image();
+				snap_img.src = snap.toDataURL("image/jpeg");
+				snap_out.appendChild(snap_img);
 			}
-		}else{
+		}else if(message.hasOwnProperty("toggleBandwidth")){
 			var friendDiv = document.createElement('div');
     		friendDiv.className ="chat friend";
     		var friendPhoto = document.createElement('div');
@@ -149,6 +151,10 @@ function login(form) {
     		friendDiv.appendChild(text);
     		chatlogs.appendChild(friendDiv);
     		chatlogs.scrollTop=chatlogs.scrollHeight;
+		}else if (message.hasOwnProperty("toggleBandwidth")){
+			console.log("Toggle Bandwidth:" + message.toggleBandwidth);
+			//Code for user to execute when they recieve toggle message
+			
 		}
 	});
 	return false;
@@ -377,4 +383,9 @@ function sendMessage(){
     	chatlogs.scrollTop=chatlogs.scrollHeight;
     	tbox.value='';
 	}
+}
+
+function send_toggle_message(){
+	var toggle = true;
+	phone.send({ toggleBandwidth : toggle });
 }
