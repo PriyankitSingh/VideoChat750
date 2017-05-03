@@ -23,6 +23,8 @@ var snap_out = document.getElementById('faceImages');
 
 var participantBandwidths = [];
 
+var facesReceived;
+
 var phone;
 var chatlogs = document.getElementById('chatlogs');
 
@@ -157,15 +159,14 @@ function login(form) {
     		chatlogs.scrollTop=chatlogs.scrollHeight;
 		}else if (message.hasOwnProperty("toggleBandwidth")){
 			console.log("Toggle Bandwidth:" + message.toggleBandwidth);
-			//Code for user to execute when they recieve toggle message
-			
+			toggleQuality(true);
 		}
 	});
 	return false;
 }
 
 //-----------------------------------------------------------------------------
-//TESTING
+//TESTING: 
 function loginFaceOnly(form) {
 	faceOnly = true;
 	console.log('setting up a face only connection');
@@ -215,33 +216,59 @@ function loginFaceOnly(form) {
 		console.log(session.number+": audio enabled - " + isEnabled);
 	});
 	phone.message(function(session,message){
-		console.log("received image");
-		var img = new Image();
-		img.src = message.image.data;
-		facesReceived[session.number] = img;
-		snap.width = 200;
-		snap.height = 200;
-		var iteration = 1;
-		var startX = 0;
-		var startY = 0;
-		img.onload = function(){
-			snap_context.clearRect(0, 0, snap.width, snap.height);
+		if(message.hasOwnProperty("image")){
+			var img = new Image();
+			img.src = message.image.data;
+			facesReceived[session.number] = img;
+			var height = 0
 			Object.keys(facesReceived).forEach(function (key) {
-				var value = facesReceived[key];
-				snap.height = 200 * iteration;
-				snap_context.drawImage(img,0,startY);
-				startX = startX + 200;
-				startY = startY + 200;
+				height += 200;
 			})
-			snap_out.innerHTML = "";
-			img.data = snap.toDataURL("image/jpeg");
-			snap_out.appendChild(img);
+			snap.width = 200;
+			snap.height = height;
+			var startY = 0;
+			img.onload = function(){
+				snap_context.clearRect(0, 0, snap.width, snap.height);
+				Object.keys(facesReceived).forEach(function (key) {
+					console.log("drawing face:" + key);
+					var value = facesReceived[key];
+					snap_context.drawImage(value,0,startY);
+					startY = startY + 200;
+				})
+				snap_out.innerHTML = "";
+				var snap_img = new Image();
+				snap_img.src = snap.toDataURL("image/jpeg");
+				snap_out.appendChild(snap_img);
+			}
+		}else if(message.hasOwnProperty("toggleBandwidth")){
+			var friendDiv = document.createElement('div');
+    		friendDiv.className ="chat friend";
+    		var friendPhoto = document.createElement('div');
+    		friendPhoto.className ="photo";
+    		var image = document.createElement('img');
+    		image.src="icons/minion2.png";
+    		friendPhoto.appendChild(image);
+    		var text = document.createElement('p');
+    		text.className="message";
+    		text.innerHTML=message.text;
+    		friendDiv.appendChild(friendPhoto);
+    		friendDiv.appendChild(text);
+    		chatlogs.appendChild(friendDiv);
+    		chatlogs.scrollTop=chatlogs.scrollHeight;
+		}else if (message.hasOwnProperty("toggleBandwidth")){
+			console.log("Toggle Bandwidth:" + message.toggleBandwidth);
+			toggleQuality(true);
+			
 		}
 	});
 	return false;
 }
 
-function toggleQuality(){
+function toggleQuality(isFromMessage){
+	if(!isFromMessage){
+		send_toggle_message();
+	}
+	
 	end();
 	var loginForm = document.getElementById("login");
 	var callForm = document.getElementById("call")
