@@ -266,6 +266,7 @@ function loginFaceOnly(form) {
 
 function toggleQuality(isFromMessage){
 	if(!isFromMessage){
+		// TODO: there could be a timing issue with send message and end stream
 		send_toggle_message();
 	}
 	
