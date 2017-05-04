@@ -128,13 +128,15 @@ function toggle(){
 		isSnapVisible = false;
 		video_out.style.display = 'block';
 		snap_out.style.display = 'none';
-		window.phone.mystream.getVideoTracks()[0].enabled = true;
-		console.log(window.phone.mystream.getVideoTracks()[0].enabled);
+		end_send_loop();
+		//window.phone.mystream.getVideoTracks()[0].enabled = true;
+		//console.log(window.phone.mystream.getVideoTracks()[0].enabled);
 	}else{
 		isSnapVisible = true;
 		video_out.style.display = 'none';
 		snap_out.style.display = 'block';
-		window.phone.mystream.getVideoTracks()[0].enabled = false;
-		console.log(window.phone.mystream.getVideoTracks()[0].enabled);
+		send_img_loop();
+		//window.phone.mystream.getVideoTracks()[0].enabled = false;
+		//console.log(window.phone.mystream.getVideoTracks()[0].enabled);
 	}
 }

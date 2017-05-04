@@ -44,7 +44,6 @@ function invokeGetStats(peerConnection){
 
 }
 
-
 function setBandwidth(form){
 	bandwidth = form.bandwidth.value;
 	return false;
