@@ -136,7 +136,7 @@ function login(form) {
 				snap_img.src = snap.toDataURL("image/jpeg");
 				snap_out.appendChild(snap_img);
 			}
-		}else if(message.hasOwnProperty("toggleBandwidth")){
+		}else if(message.hasOwnProperty("text")){
 			var friendDiv = document.createElement('div');
     		friendDiv.className ="chat friend";
     		var friendPhoto = document.createElement('div');
