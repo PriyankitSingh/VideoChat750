@@ -97,7 +97,7 @@
         console.log('makeCallFacebook(friendNumber);');
 
       });
-      container.appendChild(userElement);
+      //container.appendChild(userElement);
 
       console.log(response);
       document.getElementById('status').innerHTML =
