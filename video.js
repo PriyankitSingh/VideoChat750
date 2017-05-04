@@ -23,7 +23,7 @@ var snap_out = document.getElementById('faceImages');
 
 var participantBandwidths = [];
 
-var facesReceived;
+var facesReceived = {};
 
 var phone;
 var chatlogs = document.getElementById('chatlogs');
@@ -89,7 +89,6 @@ function login(form) {
 			//video_out.appendChild(kickbtn);
 			//addLog(session.number + " has joined.");
 			
-			send_img_loop();
 			console.log(session.number + " has joined.");
 			vidCount++; });
 
