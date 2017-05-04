@@ -90,7 +90,7 @@ function loginFaceOnly(form) {
 
 function toggleQuality(isFromMessage){
 	console.log("in toggle video quality");
-	send_toggle_message();
+	
 	if(!isFromMessage){
 		// TODO: there could be a timing issue with send message and end stream
 		
@@ -118,13 +118,13 @@ function toggle(){
 	if (isSnapVisible){
 		isSnapVisible = false;
 		video_out.style.display = 'block';
-		snap_out.style.display = 'none';
+		//snap_out.style.display = 'none';
 		end_send_loop();
 		//window.phone.mystream.getVideoTracks()[0].enabled = true;
 		//console.log(window.phone.mystream.getVideoTracks()[0].enabled);
 	}else{
 		isSnapVisible = true;
-		video_out.style.display = 'none';
+		//video_out.style.display = 'none';
 		snap_out.style.display = 'block';
 		send_img_loop();
 		//window.phone.mystream.getVideoTracks()[0].enabled = false;
