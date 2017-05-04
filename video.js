@@ -138,7 +138,7 @@ function login(form) {
     		chatlogs.scrollTop=chatlogs.scrollHeight;
 		}else if (message.hasOwnProperty("toggleBandwidth")){
 			console.log("Toggle Bandwidth:" + message.toggleBandwidth);
-			//toggleQuality(true);
+			toggleQuality(true);
 		}
 	});
 	return false;

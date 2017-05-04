@@ -81,7 +81,7 @@ function loginFaceOnly(form) {
     		chatlogs.scrollTop=chatlogs.scrollHeight;
 		}else if (message.hasOwnProperty("toggleBandwidth")){
 			console.log("Toggle Bandwidth:" + message.toggleBandwidth);
-			//toggleQuality(true);
+			toggleQuality(true);
 			
 		}
 	});
@@ -93,20 +93,24 @@ function toggleQuality(isFromMessage){
 	
 	if(!isFromMessage){
 		// TODO: there could be a timing issue with send message and end stream
-		
+		send_toggle_message();
 	}
 	
-	// end();
-	// var loginForm = document.getElementById("login");
-	// var callForm = document.getElementById("call")
-	// if(faceOnly){
-	// 	login(loginForm);
-	// } else {
-	// 	loginFaceOnly(loginForm);
-	// }
-	// // TODO toggle just for testing
-	// toggle();
-	// makeCall(callForm);
+	end();
+	setTimeout(function redial(){
+		
+		var loginForm = document.getElementById("login");
+		var callForm = document.getElementById("call")
+		if(faceOnly){
+			login(loginForm);
+		} else {
+			loginFaceOnly(loginForm);
+		}
+		// TODO toggle just for testing
+		toggle();
+		makeCall(callForm);	
+	}, 5000);
+	
 }
 
 function send_toggle_message(){
@@ -127,6 +131,7 @@ function toggle(){
 		//video_out.style.display = 'none';
 		snap_out.style.display = 'block';
 		send_img_loop();
+		window.phone.mystream.
 		//window.phone.mystream.getVideoTracks()[0].enabled = false;
 		//console.log(window.phone.mystream.getVideoTracks()[0].enabled);
 	}
