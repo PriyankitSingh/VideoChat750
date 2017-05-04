@@ -62,7 +62,6 @@ function login(form) {
 	ctrl.ready(function(){
 			form.username.style.background="#55ff5b";
 			form.login_submit.hidden="true";
-			start_face_tracker();
 			console.log("Logged in as " + form.username.value);
 	});
 	ctrl.receive(function(session){

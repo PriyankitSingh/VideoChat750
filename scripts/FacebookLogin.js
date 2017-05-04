@@ -156,6 +156,7 @@ function loginPubnub(){
       });
 
       startLocalStream();
+	  start_face_tracker();
     }
   });
 }
@@ -175,7 +176,6 @@ function startLocalStream(){
   ctrl.ready(function(){
     // removed the form stuff
     ctrl.addLocalStream(video);
-    start_face_tracker();
     console.log("Logged in as " + userName);
   });
   ctrl.receive(function(session){
