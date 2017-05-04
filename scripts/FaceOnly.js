@@ -88,6 +88,7 @@ function loginFaceOnly(form) {
 	return false;
 }
 
+
 function toggleQuality(isFromMessage){
 	console.log("in toggle video quality");
 	
@@ -126,12 +127,12 @@ function toggle(){
 		end_send_loop();
 		//window.phone.mystream.getVideoTracks()[0].enabled = true;
 		//console.log(window.phone.mystream.getVideoTracks()[0].enabled);
-	}else{
+	} else {
 		isSnapVisible = true;
 		//video_out.style.display = 'none';
 		snap_out.style.display = 'block';
 		send_img_loop();
-		window.phone.mystream.
+		// window.phone.mystream.
 		//window.phone.mystream.getVideoTracks()[0].enabled = false;
 		//console.log(window.phone.mystream.getVideoTracks()[0].enabled);
 	}
