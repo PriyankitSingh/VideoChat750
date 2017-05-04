@@ -1,5 +1,5 @@
-//-----------------------------------------------------------------------------
-//TESTING: 
+
+
 function loginFaceOnly(form) {
 	faceOnly = true;
 	console.log('setting up a face only connection');
