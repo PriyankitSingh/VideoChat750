@@ -41,7 +41,7 @@ function loginFaceOnly(form) {
 	});
 	phone.message(function(session,message){
 		if(faceOnly == false){
-			console.log('ignoring face only message');
+			// ignore all messages when not in faceonly mode
 			return;
 		}
 		if(message.hasOwnProperty("image")){
@@ -58,7 +58,7 @@ function loginFaceOnly(form) {
 			img.onload = function(){
 				snap_context.clearRect(0, 0, snap.width, snap.height);
 				Object.keys(facesReceived).forEach(function (key) {
-					console.log("drawing face:" + key);
+					// console.log("drawing face:" + key);
 					var value = facesReceived[key];
 					snap_context.drawImage(value,0,startY);
 					startY = startY + 200;

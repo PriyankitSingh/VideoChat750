@@ -52,6 +52,7 @@ function login(form) {
 	console.log('setting up a video connection');
 	// clear the face div because it is not needed here.
 	snap_out.innerHTML = '';
+	
 	var phone = window.phone =
 	PHONE({
 	    number        : form.username.value || "Anonymous",
@@ -92,7 +93,7 @@ function login(form) {
 
 	ctrl.videoToggled(function(session, isEnabled){
 		if(faceOnly){
-			console.log('ignoring video');
+			// ignore video in face only mode
 			return;
 		}
 		ctrl.getVideoElement(session.number).toggle(isEnabled);
@@ -105,7 +106,7 @@ function login(form) {
 
 	phone.message(function(session,message){
 		if(faceOnly){
-			console.log('ignoring video message');
+			// don't receive any messages in face only mode
 			return;
 		}
 		if(message.hasOwnProperty("image")){
