@@ -21,6 +21,8 @@ var send_loop_id = null;
 var isSnapVisible = false;
 var snap_out = document.getElementById('faceImages');
 
+var facesReceived = {};
+
 var participantBandwidths = [];
 
 var phone;
@@ -136,7 +138,7 @@ function login(form) {
 				snap_img.src = snap.toDataURL("image/jpeg");
 				snap_out.appendChild(snap_img);
 			}
-		}else if(message.hasOwnProperty("toggleBandwidth")){
+		}else if(message.hasOwnProperty("text")){
 			var friendDiv = document.createElement('div');
     		friendDiv.className ="chat friend";
     		var friendPhoto = document.createElement('div');
@@ -154,7 +156,7 @@ function login(form) {
 		}else if (message.hasOwnProperty("toggleBandwidth")){
 			console.log("Toggle Bandwidth:" + message.toggleBandwidth);
 			//Code for user to execute when they recieve toggle message
-			
+			toggle(true);
 		}
 	});
 	return false;
@@ -274,19 +276,29 @@ function send_img(){
 
 }
 
-function toggle(){
+function toggle(message){
 	if (isSnapVisible){
 		isSnapVisible = false;
 		video_out.style.display = 'block';
 		snap_out.style.display = 'none';
-		window.phone.mystream.getVideoTracks()[0].enabled = true;
-		console.log(window.phone.mystream.getVideoTracks()[0].enabled);
+		pause();
+		end_send_loop();
+		if(!message){
+			send_toggle_message();
+		}
+		//window.phone.mystream.getVideoTracks()[0].enabled = true;
+		//console.log(window.phone.mystream.getVideoTracks()[0].enabled);
 	}else{
 		isSnapVisible = true;
 		video_out.style.display = 'none';
 		snap_out.style.display = 'block';
-		window.phone.mystream.getVideoTracks()[0].enabled = false;
-		console.log(window.phone.mystream.getVideoTracks()[0].enabled);
+		pause();
+		send_img_loop();
+		if(!message){
+			send_toggle_message();
+		}
+		//window.phone.mystream.getVideoTracks()[0].enabled = false;
+		//console.log(window.phone.mystream.getVideoTracks()[0].enabled);
 	}
 }
 /*
