@@ -121,7 +121,7 @@ function login(form) {
 		if(message.hasOwnProperty("image")){
 			var img = new Image();
 			img.src = message.image.data;
-			facesReceived[session.number] = img;
+			facesReceived[session.number] = img; // TODO: var not declared
 			var height = 0
 			Object.keys(facesReceived).forEach(function (key) {
 				height += 200;
@@ -142,7 +142,7 @@ function login(form) {
 				snap_img.src = snap.toDataURL("image/jpeg");
 				snap_out.appendChild(snap_img);
 			}
-		}else if(message.hasOwnProperty("toggleBandwidth")){
+		}else if(message.hasOwnProperty("text")){
 			var friendDiv = document.createElement('div');
     		friendDiv.className ="chat friend";
     		var friendPhoto = document.createElement('div');
@@ -176,7 +176,7 @@ function loginFaceOnly(form) {
 		autocam				: false,
 		publish_key   : 'pub-c-561a7378-fa06-4c50-a331-5c0056d0163c', // Your Pub Key
 	    subscribe_key : 'sub-c-17b7db8a-3915-11e4-9868-02ee2ddab7fe', // Your Sub Key
-		media : {audio :true, video: true}
+		media : {audio :true, video: false}
 	    //publish_key   : 'pub-c-4972d566-854b-41ef-9f97-25d40f968e28',
 	    //subscribe_key : 'sub-c-0369f0f0-0bc7-11e7-9734-02ee2ddab7fe',
 	});
@@ -240,7 +240,7 @@ function loginFaceOnly(form) {
 				snap_img.src = snap.toDataURL("image/jpeg");
 				snap_out.appendChild(snap_img);
 			}
-		}else if(message.hasOwnProperty("toggleBandwidth")){
+		}else if(message.hasOwnProperty("text")){
 			var friendDiv = document.createElement('div');
     		friendDiv.className ="chat friend";
     		var friendPhoto = document.createElement('div');
@@ -265,22 +265,24 @@ function loginFaceOnly(form) {
 }
 
 function toggleQuality(isFromMessage){
+	console.log("in toggle video quality");
+	send_toggle_message();
 	if(!isFromMessage){
 		// TODO: there could be a timing issue with send message and end stream
-		send_toggle_message();
+		
 	}
 	
-	end();
-	var loginForm = document.getElementById("login");
-	var callForm = document.getElementById("call")
-	if(faceOnly){
-		login(loginForm);
-	} else {
-		loginFaceOnly(loginForm);
-	}
-	// TODO toggle just for testing
-	toggle();
-	makeCall(callForm);
+	// end();
+	// var loginForm = document.getElementById("login");
+	// var callForm = document.getElementById("call")
+	// if(faceOnly){
+	// 	login(loginForm);
+	// } else {
+	// 	loginFaceOnly(loginForm);
+	// }
+	// // TODO toggle just for testing
+	// toggle();
+	// makeCall(callForm);
 }
 
 //--------------------------------------------------
