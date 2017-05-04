@@ -9,7 +9,6 @@
   var video_out = document.getElementById("vid-box");
   var vid_thumb = document.getElementById("myVideo");
   var vidCount = 0;
-  var contactList= document.getElementById("contactList");
   var sessionList = [];
 
   // This is called with the results from from FB.getLoginStatus().
@@ -84,9 +83,9 @@
 
     FB.api('/me', function(response) {
       userName = response.name;
-      //var container = document.getElementById('friends-container');
+      var container = document.getElementById('friends-container');
       var userElement = document.createElement("div");
-      userElement.innerHTML = "<b>" + response.name + "</b>"
+      userElement.innerHTML = "<b>" + response.name + "</b>";
 
       userElement.addEventListener('click', function(event){
         // TODO: Just for testing
@@ -101,7 +100,7 @@
 
       console.log(response);
       document.getElementById('status').innerHTML =
-        'Thanks for logging in, ' + response.name + '!';
+        'Welcome, ' + response.name + '!';
     });
 
     // fetch friends (only gets people who have signed up for this application)
@@ -111,15 +110,17 @@
 
         var friends = response.data.sort(sortMethod);
         console.log('got a response. Number of friends: ' + friends.length);
-        var container = document.getElementById('friends-container');
-        container.innerHTML = '';
+        // var container = document.getElementById('friends-container');
+        // container.innerHTML = '';
+        var contactList= document.getElementById('contactsID');
         for (var i=0; i<friends.length; i++){
           console.log(friends[i].id + " " + friends[i].name);
           var friendName = friends[i].name;
           var friendId = friends[i].id;
+          var listItem = document.createElement('li');
           var friendElement = document.createElement("a");
-
-          friendElement.innerHTML = "<b>"+"<img src=\"icons\\user.png\" alt=\"Profile Photo\"/> " + friends[i].name + "</b>";
+          friendElement.innerHTML = "<img src=\"icons\\user.png\" alt=\"Profile Photo\"/> " + friends[i].name;
+          listItem.appendChild(friendElement);
           (function (friendName, friendId){
             friendElement.addEventListener('click', function(event){
               // Call the user from here
@@ -130,7 +131,8 @@
             });
           })(friendName, friendId);
 
-          container.appendChild(friendElement);
+          contactList.appendChild(listItem);
+          // container.appendChild(friendElement);
         }
       } else {
         console.log('got no response');
