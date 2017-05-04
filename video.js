@@ -12,7 +12,7 @@ var sessionList = [];
 
 var video = document.getElementById('myVideo');
 var faceCanvas = document.createElement('canvas');
-//var faceCanvas = document.getElementById('faceCanvas');
+//var faceCanvas = document.getElementById('faceOnly');
 var ctx = faceCanvas.getContext('2d');
 
 //In ms, rate at which we send pictures
@@ -373,8 +373,8 @@ window.onload = function(){
 	    event.data.forEach(function(rect) {
 	    	// create a new canvas for each face	
 			faceCanvas.width += 200;
-	    	ctx.drawImage(video, rect.x, rect.y, 400, 300, 
-	      						startX, 0, faceCanvas.width, faceCanvas.height);
+	    	ctx.drawImage(video, rect.x, rect.y, rect.width, rect.height, 
+	      						0, 0, 200, 200);
 			startX = startX + 200;
 			startY = startY + 200;
 	    });
