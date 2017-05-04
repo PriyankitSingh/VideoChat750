@@ -87,7 +87,6 @@ function login(form) {
 			//var kickbtn = document.createElement("button");
 			//video_out.appendChild(kickbtn);
 			//addLog(session.number + " has joined.");
-			
 			console.log(session.number + " has joined.");
 			vidCount++; });
 
