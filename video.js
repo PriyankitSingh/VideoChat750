@@ -276,6 +276,16 @@ function send_img(){
 
 }
 
+function change_send_img_rate(rate){
+	interval = rate;
+	if(send_loop_id == null){
+		return;
+	}else{
+		end_send_loop();
+		send_img_loop();
+	}	
+}
+
 function toggle(message){
 	if (isSnapVisible){
 		isSnapVisible = false;
