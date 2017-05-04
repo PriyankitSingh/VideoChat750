@@ -7,7 +7,7 @@ var snap = document.createElement('canvas');
 var snap_context = snap.getContext('2d');
 
 var vidCount = 0;
-var bandwidth = 250;
+var bandwidth = "low";
 var sessionList = [];
 
 var video = document.getElementById('myVideo');
@@ -46,6 +46,24 @@ function invokeGetStats(peerConnection){
 
 function setBandwidth(form){
 	bandwidth = form.bandwidth.value;
+	if(bandwidth.toLowerCase() == "high"){
+		if(send_loop_id == null){
+			//do nothing
+		}else{
+			toggle_to_high();
+			send_toggle_message("high");
+		}
+		
+	}else if(bandwidth.toLowerCase() == "low"){
+		if(send_loop_id == null){
+			toggle_to_low();
+			send_toggle_message("low");
+		}else{
+			//do nothing
+		}
+	}else{
+		alert("Only High or Low accepted not: "  + bandwidth);
+	}
 	return false;
 }
 
@@ -154,8 +172,25 @@ function login(form) {
     		chatlogs.scrollTop=chatlogs.scrollHeight;
 		}else if (message.hasOwnProperty("toggleBandwidth")){
 			console.log("Toggle Bandwidth:" + message.toggleBandwidth);
-			//Code for user to execute when they recieve toggle message
-			toggle(true);
+			//Code for user to execute when they recieve toggle message		
+			bandwidth = message.toggleBandwidth;
+			if(bandwidth.toLowerCase() == "high"){
+				if(send_loop_id == null){
+					//do nothing
+				}else{
+					toggle_to_high();
+				}
+				
+			}else if(bandwidth.toLowerCase() == "low"){
+				if(send_loop_id == null){
+					toggle_to_low();
+				}else{
+					//do nothing
+				}
+			}else{
+				alert("Only High or Low accepted not: "  + bandwidth);
+			}
+			
 		}
 	});
 	return false;
@@ -264,6 +299,7 @@ function end_send_loop(){
 		return;
 	}else{
 		clearInterval(send_loop_id);
+		send_loop_id = null;
 	}
 }
 
@@ -310,6 +346,24 @@ function toggle(message){
 		//console.log(window.phone.mystream.getVideoTracks()[0].enabled);
 	}
 }
+
+function toggle_to_high(){
+	isSnapVisible = false;
+	video_out.style.display = 'block';
+	snap_out.style.display = 'none';
+	pause();
+	end_send_loop();
+}
+
+
+function toggle_to_low(){
+	isSnapVisible = true;
+	video_out.style.display = 'none';
+	snap_out.style.display = 'block';
+	pause();
+	send_img_loop();
+}
+
 /*
 function start_face_tracker(){
   console.log("print");
@@ -406,7 +460,6 @@ function sendMessage(){
 	}
 }
 
-function send_toggle_message(){
-	var toggle = true;
+function send_toggle_message(toggle){
 	phone.send({ toggleBandwidth : toggle });
 }

@@ -44,8 +44,8 @@
 					</form>
 
 					<!-- This is for testing, might replace with something else later -->
-					<form name="TestBandwidth" id="bandwidthForm" action ="#" onsubmit="setBandwidth(this)">Set your bandwidth(kbps).<br>
-					    <input type="text" name="bandwidth" id= "bandwidth" value="250">
+					<form name="TestBandwidth" id="bandwidthForm" action ="#" onsubmit="event.preventDefault(); setBandwidth(this);">Set your bandwidth(High/Low).<br>
+					    <input type="text" name="bandwidth" id= "bandwidth" value="High">
 					    <input type="submit" class="btn btn-success" value="Set" >
 					</form>
 				</div>
@@ -63,7 +63,6 @@
 							<button id="end" onclick="end()">End</button> 
 							<button id="mute" onclick="mute()">Mute</button> 
 							<button id="pause" onclick="pause()">Pause</button>
-							<button id="toggle" onclick="toggle()">Toggle</button>
 						</div>
 		    		</div>
 	      	 	</div>
