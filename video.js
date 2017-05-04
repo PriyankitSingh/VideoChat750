@@ -1,8 +1,6 @@
 var video_out = document.getElementById("vid-box");
 var othervideos = document.getElementById("othercallervideos");
-//var vid_thumb = document.getElementById("vid-thumb");
 
-//var snap = document.getElementById("snap");
 var snap = document.createElement('canvas');
 var snap_context = snap.getContext('2d');
 
@@ -12,7 +10,6 @@ var sessionList = [];
 
 var video = document.getElementById('myVideo');
 var faceCanvas = document.createElement('canvas');
-//var faceCanvas = document.getElementById('faceCanvas');
 var ctx = faceCanvas.getContext('2d');
 
 //In ms, rate at which we send pictures
@@ -59,17 +56,12 @@ function login(form) {
 		publish_key   : 'pub-c-561a7378-fa06-4c50-a331-5c0056d0163c', // Your Pub Key
 	    subscribe_key : 'sub-c-17b7db8a-3915-11e4-9868-02ee2ddab7fe', // Your Sub Key
 		media : {audio :true, video: true}
-	    //publish_key   : 'pub-c-4972d566-854b-41ef-9f97-25d40f968e28',
-	    //subscribe_key : 'sub-c-0369f0f0-0bc7-11e7-9734-02ee2ddab7fe',
 	});
 
 	var ctrl = window.ctrl = CONTROLLER(phone, get_xirsys_servers);
 	ctrl.ready(function(){
 			form.username.style.background="#55ff5b";
 			form.login_submit.hidden="true";
-			//Here we possibly want to minimise the user's screen
-			//ctrl.addLocalStream(video);
-			//addLog("Logged in as " + form.username.value);
 			start_face_tracker();
 			console.log("Logged in as " + form.username.value);
 	});
@@ -80,13 +72,8 @@ function login(form) {
 			listItem.id= "callee" +session.number;
 			listItem.appendChild(session.video);
 			othervideos.appendChild(listItem);
-			//video_out.appendChild(session.video);
 			var sessionRTCPeerConnection = session.pc;
 			invokeGetStats(sessionRTCPeerConnection);
-			//Adding button for kicking a session
-			//var kickbtn = document.createElement("button");
-			//video_out.appendChild(kickbtn);
-			//addLog(session.number + " has joined.");
 			console.log(session.number + " has joined.");
 			vidCount++; });
 
@@ -97,24 +84,20 @@ function login(form) {
 			var listItem = document.getElementById('callee'+session.number);
 			listItem.outerHTML ="";
 			delete listItem;
-			//addLog(session.number + " has left.");
 			console.log(session.number + " has left.");
 			vidCount--;});
 	});
 
 	ctrl.videoToggled(function(session, isEnabled){
 		ctrl.getVideoElement(session.number).toggle(isEnabled);
-		//addLog(session.number+": video enabled - " + isEnabled);
 		console.log(session.number+": video enabled - " + isEnabled);
 	});
 	ctrl.audioToggled(function(session, isEnabled){
 		ctrl.getVideoElement(session.number).css("opacity",isEnabled ? 1 : 0.75);
-		//addLog(session.number+": audio enabled - " + isEnabled);
 		console.log(session.number+": audio enabled - " + isEnabled);
 	});
 
 	phone.message(function(session,message){
-		//console.log("received image");
 		if(message.hasOwnProperty("image")){
 			var img = new Image();
 			img.src = message.image.data;
@@ -156,7 +139,7 @@ function login(form) {
     		chatlogs.scrollTop=chatlogs.scrollHeight;
 		}else if (message.hasOwnProperty("toggleBandwidth")){
 			console.log("Toggle Bandwidth:" + message.toggleBandwidth);
-			toggleQuality(true);
+			//toggleQuality(true);
 		}
 	});
 	return false;
@@ -211,11 +194,6 @@ function pause(){
 function getVideo(number){
 	return $('*[data-number="'+number+'"]');
 }
-
-//
-// function addLog(log){
-// 	$('#logs').append("<p>"+log+"</p>");
-// }
 
 function get_xirsys_servers() {
     var servers;

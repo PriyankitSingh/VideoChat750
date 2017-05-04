@@ -10,17 +10,12 @@ function loginFaceOnly(form) {
 		publish_key   : 'pub-c-561a7378-fa06-4c50-a331-5c0056d0163c', // Your Pub Key
 	    subscribe_key : 'sub-c-17b7db8a-3915-11e4-9868-02ee2ddab7fe', // Your Sub Key
 		media : {audio :true, video: false}
-	    //publish_key   : 'pub-c-4972d566-854b-41ef-9f97-25d40f968e28',
-	    //subscribe_key : 'sub-c-0369f0f0-0bc7-11e7-9734-02ee2ddab7fe',
 	});
 
 	var ctrl = window.ctrl = CONTROLLER(phone, get_xirsys_servers);
 	ctrl.ready(function(){
 			form.username.style.background="#55ff5b";
 			form.login_submit.hidden="true";
-			//Here we possibly want to minimise the user's screen
-			//ctrl.addLocalStream(video);
-			//addLog("Logged in as " + form.username.value);
 			start_face_tracker();
 			console.log("Logged in as " + form.username.value);
 	});
@@ -30,7 +25,6 @@ function loginFaceOnly(form) {
 			video_out.appendChild(session.video);
 			var sessionRTCPeerConnection = session.pc;
 			invokeGetStats(sessionRTCPeerConnection);			
-			send_img_loop();
 			console.log(session.number + " has joined.");
 			vidCount++; });
 
@@ -38,14 +32,12 @@ function loginFaceOnly(form) {
 			var index = sessionList.indexOf(session);
 			sessionList.splice(index,1);
 			ctrl.getVideoElement(session.number).remove();
-			//addLog(session.number + " has left.");
 			console.log(session.number + " has left.");
 			vidCount--;});
 	});
 
 	ctrl.audioToggled(function(session, isEnabled){
 		ctrl.getVideoElement(session.number).css("opacity",isEnabled ? 1 : 0.75);
-		//addLog(session.number+": audio enabled - " + isEnabled);
 		console.log(session.number+": audio enabled - " + isEnabled);
 	});
 	phone.message(function(session,message){
@@ -90,7 +82,7 @@ function loginFaceOnly(form) {
     		chatlogs.scrollTop=chatlogs.scrollHeight;
 		}else if (message.hasOwnProperty("toggleBandwidth")){
 			console.log("Toggle Bandwidth:" + message.toggleBandwidth);
-			toggleQuality(true);
+			//toggleQuality(true);
 			
 		}
 	});
