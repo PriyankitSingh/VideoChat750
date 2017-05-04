@@ -28,25 +28,6 @@ var chatlogs = document.getElementById('chatlogs');
 // This function measures the video availableBandwidth
 var faceOnly = false;
 
-function invokeGetStats(peerConnection){
-	getStats(peerConnection, function(result ) {
-		participantBandwidths[peerConnection.number]=  result.video.availableBandwidth;
-		console.log(peerConnection.number +": " +participantBandwidths[peerConnection.number]);
-		if (result.datachannel && result.datachannel.state === 'close') {
-			delete dic[peerConnection.number];
-			console.log("removed" + peerConnection.number);
-			result.nomore();
-		}
-		window.getStatsResult = result;
-	}, 5 * 1000);
-
-}
-
-function setBandwidth(form){
-	bandwidth = form.bandwidth.value;
-	return false;
-}
-
 function login(form) {
 	faceOnly = false;
 	console.log('setting up a video connection');
@@ -85,8 +66,10 @@ function login(form) {
 			sessionList.splice(index,1);
 			ctrl.getVideoElement(session.number).remove();
 			var listItem = document.getElementById('callee'+session.number);
-			listItem.outerHTML ="";
-			delete listItem;
+			if(listItem != null){
+				listItem.outerHTML =""; // TODO : gives an error
+				delete listItem;
+			}
 			console.log(session.number + " has left.");
 			vidCount--;});
 	});
@@ -94,6 +77,7 @@ function login(form) {
 	ctrl.videoToggled(function(session, isEnabled){
 		if(faceOnly){
 			// ignore video in face only mode
+			console.log('not displaying video');
 			return;
 		}
 		ctrl.getVideoElement(session.number).toggle(isEnabled);
