@@ -10,6 +10,7 @@
   var vid_thumb = document.getElementById("myVideo");
   var vidCount = 0;
   var sessionList = [];
+  var friendsList =[];
 
   // This is called with the results from from FB.getLoginStatus().
   function statusChangeCallback(response) {
@@ -80,7 +81,6 @@
   // successful.  See statusChangeCallback() for when this call is made.
   function testAPI() {
     console.log('Welcome!  Fetching your information.... ');
-
     FB.api('/me', function(response) {
       userName = response.name;
       var container = document.getElementById('friends-container');
@@ -114,9 +114,11 @@
         // container.innerHTML = '';
         var contactList= document.getElementById('contactsID');
         for (var i=0; i<friends.length; i++){
+          if(friendsList.indexOf(friends[i].id)<0){
           console.log(friends[i].id + " " + friends[i].name);
           var friendName = friends[i].name;
           var friendId = friends[i].id;
+          friendsList.push(friendId);
           var listItem = document.createElement('li');
           var friendElement = document.createElement("a");
           friendElement.innerHTML = "<img src=\"icons\\user.png\" alt=\"Profile Photo\"/> " + friends[i].name;
@@ -133,6 +135,7 @@
 
           contactList.appendChild(listItem);
           // container.appendChild(friendElement);
+          }
         }
       } else {
         console.log('got no response');
