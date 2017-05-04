@@ -40,6 +40,10 @@ function loginFaceOnly(form) {
 		console.log(session.number+": audio enabled - " + isEnabled);
 	});
 	phone.message(function(session,message){
+		if(faceOnly == false){
+			console.log('ignoring face only message');
+			return;
+		}
 		if(message.hasOwnProperty("image")){
 			var img = new Image();
 			img.src = message.image.data;
@@ -103,8 +107,10 @@ function toggleQuality(isFromMessage){
 		var loginForm = document.getElementById("login");
 		var callForm = document.getElementById("call")
 		if(faceOnly){
+			console.log('changing from faceonly to video');
 			login(loginForm);
 		} else {
+			console.log('changing from video to faceonly');
 			loginFaceOnly(loginForm);
 		}
 		// TODO toggle just for testing

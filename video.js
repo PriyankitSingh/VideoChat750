@@ -27,6 +27,7 @@ var chatlogs = document.getElementById('chatlogs');
 
 // This function measures the video availableBandwidth
 var faceOnly = false;
+
 function invokeGetStats(peerConnection){
 	getStats(peerConnection, function(result ) {
 		participantBandwidths[peerConnection.number]=  result.video.availableBandwidth;
@@ -49,6 +50,8 @@ function setBandwidth(form){
 function login(form) {
 	faceOnly = false;
 	console.log('setting up a video connection');
+	// clear the face div because it is not needed here.
+	snap_out.innerHTML = '';
 	var phone = window.phone =
 	PHONE({
 	    number        : form.username.value || "Anonymous",
@@ -88,6 +91,10 @@ function login(form) {
 	});
 
 	ctrl.videoToggled(function(session, isEnabled){
+		if(faceOnly){
+			console.log('ignoring video');
+			return;
+		}
 		ctrl.getVideoElement(session.number).toggle(isEnabled);
 		console.log(session.number+": video enabled - " + isEnabled);
 	});
@@ -97,30 +104,13 @@ function login(form) {
 	});
 
 	phone.message(function(session,message){
+		if(faceOnly){
+			console.log('ignoring video message');
+			return;
+		}
 		if(message.hasOwnProperty("image")){
-			var img = new Image();
-			img.src = message.image.data;
-			facesReceived[session.number] = img; // TODO: var not declared
-			var height = 0
-			Object.keys(facesReceived).forEach(function (key) {
-				height += 200;
-			})
-			snap.width = 200;
-			snap.height = height;
-			var startY = 0;
-			img.onload = function(){
-				snap_context.clearRect(0, 0, snap.width, snap.height);
-				Object.keys(facesReceived).forEach(function (key) {
-					console.log("drawing face:" + key);
-					var value = facesReceived[key];
-					snap_context.drawImage(value,0,startY);
-					startY = startY + 200;
-				})
-				snap_out.innerHTML = "";
-				var snap_img = new Image();
-				snap_img.src = snap.toDataURL("image/jpeg");
-				snap_out.appendChild(snap_img);
-			}
+			// don't need to draw images in video mode
+			console.log('isVideo');
 		}else if(message.hasOwnProperty("text")){
 			var friendDiv = document.createElement('div');
     		friendDiv.className ="chat friend";
