@@ -22,26 +22,33 @@
 		 <div class="grid">
 	       
 	    	<div class="login">
-	            
-	          <div id="status"></div>
+	    		<div class="contactslist">
+	          		<h3> <img src="icons/contacts.png">Contacts</h3>
+	       	 		<div id="friends-container" class="sidebar">
+	       	 			<ul class="contacts" id="contactsID">
+	       	 			</ul>
+	       	 		</div> 
+	       	 	</div>
 	       		<!-- TODO: need to remove one (or both) of the forms -->
-				<form name="loginForm" id="login" action="#" onsubmit="return login(this);">Please log in.
-				    <input type="text" name="username" id="username" placeholder="Pick a username!" />
-				    <input type="submit" class="btn btn-success" name="login_submit" value="Log In">
-				</form>
+				<div class = "testTools">
+					<h4>Testing Facilities</h4>
+					<div id="status"></div>
+					<form name="loginForm" id="login" action="#" onsubmit="return login(this);">Login!<br>
+					    <input type="text" name="username" id="username" placeholder="Pick a username!" />
+					    <input type="submit" class="btn btn-success" name="login_submit" value="Log In">
+					</form>
 
-				<form name="callForm" id="call" action="#" onsubmit="return makeCall(this);">Call someone!
-					<input type="text" name="number" placeholder="Enter user to dial!" />
-					<input type="submit" class="btn btn-success" value="Call"/>
-				</form>
+					<form name="callForm" id="call" action="#" onsubmit="return makeCall(this);">Call someone!<br>
+						<input type="text" name="number" placeholder="Enter user to dial!" />
+						<input type="submit" class="btn btn-success" value="Call"/>
+					</form>
 
-				<!-- This is for testing, might replace with something else later -->
-				<form name="TestBandwidth" id="bandwidthForm" action ="#" onsubmit="setBandwidth(this)">Set your bandwidth.
-				    <input type="text" name="bandwidth" id= "bandwidth" value="250"> kbps
-				    <input type="submit" class="btn btn-success" value="Set bandwidth" >
-				</form>
-	      		<br><h3>Your Facebook friends:</h3><br>
-	       		<div id="friends-container" class="sidebar"></div>
+					<!-- This is for testing, might replace with something else later -->
+					<form name="TestBandwidth" id="bandwidthForm" action ="#" onsubmit="setBandwidth(this)">Set your bandwidth(kbps).<br>
+					    <input type="text" name="bandwidth" id= "bandwidth" value="250">
+					    <input type="submit" class="btn btn-success" value="Set" >
+					</form>
+				</div>
 			</div> 
 			
 			<!--Chat box -->
@@ -52,7 +59,13 @@
 	       			<!-- <h2>Main Video</h2> -->
 		    		<div class= "userVideoContainer">
 		    			<video id="myVideo" preload autoplay loop muted></video>
+		    			<div class="inCall"> <!-- Buttons for in call features -->
+							<button id="end" onclick="end()">End</button> 
+							<button id="mute" onclick="mute()">Mute</button> 
+							<button id="pause" onclick="pause()">Pause</button>
+						</div>
 		    		</div>
+
 		    		<div id="inCall"> <!-- Buttons for in call features -->
 						<button id="end" onclick="end()">End</button> <button id="mute" onclick="mute()">Mute</button> <button id="pause" onclick="pause()">Pause</button> <button id="toggle" onclick="toggle()">Toggle</button>
 					</div>
@@ -68,7 +81,7 @@
    			</div>
 
 	       	<div class="otherVideos">
-	       		<h2>Other videos</h2>
+<!-- 	       		<h2>Other videos</h2> -->
 		    	<div id="vid-box">
 		    		<ul class="othercallers" id = "othercallervideos">
 		    		</ul>
