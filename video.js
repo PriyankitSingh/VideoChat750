@@ -69,7 +69,6 @@ function login(form) {
 			//Here we possibly want to minimise the user's screen
 			//ctrl.addLocalStream(video);
 			//addLog("Logged in as " + form.username.value);
-			start_face_tracker();
 			console.log("Logged in as " + form.username.value);
 	});
 	ctrl.receive(function(session){
@@ -354,7 +353,7 @@ function start_face_tracker(){
   });
 };
 */
-function start_face_tracker(){
+window.onload = function(){
   var tracker = new tracking.ObjectTracker('face');
   tracker.setInitialScale(4);
   tracker.setStepSize(2);
