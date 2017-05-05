@@ -20,26 +20,15 @@ function startFaceTracker(){
       // Loops through all faces found.
       event.data.forEach(function(rect) {
         // create a new canvas for each face 
-        console.log(rect); 
-        faceCanvas.width += 300;
-        var sx =rect.x;
-        if(sx>100){
-          sx= sx -100;
-        }else if(sx >50){
-          sx =sx -50;
-        }
-        var sy= rect.height;
-        if( sy >100){
-          sy=sy-100;
-        }else if(sy >50){
-          sy=sy-50;
-        }
-
+        // console.log(rect); 
+        faceCanvas.width += 200;
+        var sx = rect.x * ( video.videoWidth/userVideoContainer.offsetWidth);
+        var sy = rect.y * ( video.videoHeight/userVideoContainer.offsetHeight);
           ctx.drawImage(video, sx, sy, rect.width, rect.height, 
-                      0, 0, 300, 200);
+                      0, 0, 200, 200);
       
-      // startX = startX + 300;
-      // startY = startY + 200;
+      startX = startX + 200;
+      startY = startY + 200;
       });
     }
   });

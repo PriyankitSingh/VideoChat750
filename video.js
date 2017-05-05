@@ -1,7 +1,7 @@
 var video_out = document.getElementById("vid-box");
 var othervideos = document.getElementById("othercallervideos");
 //var vid_thumb = document.getElementById("vid-thumb");
-
+var userVideoContainer =document.getElementById("userVideoContainer");
 //var snap = document.getElementById("snap");
 var snap = document.createElement('canvas');
 var snap_context = snap.getContext('2d');
@@ -65,8 +65,9 @@ function login(form) {
 			// Image element for low bandwidth
 			var imgElement = document.createElement('img');
 			imgElement.id="calleeImg"+session.number;
-			imgElement.src="";
+			imgElement.src='';
 			imgElement.style.zIndex ="-1";
+			console.log(imgElement);
 			listItem.appendChild(session.video);
 			listItem.appendChild(imgElement);
 			othervideos.appendChild(listItem);
@@ -106,6 +107,12 @@ function login(form) {
 	phone.message(function(session,message){
 		//console.log("received image");
 		if(message.hasOwnProperty("image")){
+			// var img = document.getElementById("calleeImg" +session.number);
+			// if(img !=null){
+			// 	img.src = message.image.data;
+			// 	img.style.zIndex ="1";
+			// 	console.log(img);
+			// }
 			var img = new Image();
 			img.src = message.image.data;
 			facesReceived[session.number] = img;
