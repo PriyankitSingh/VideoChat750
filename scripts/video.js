@@ -94,7 +94,6 @@ function login(form) {
 
 	// Manage the messages recieved by the phone.
 	phone.message(function(session,message){
-		//console.log("received image");
 		if(message.hasOwnProperty("image")){
 			var img = new Image();
 			img.src = message.image.data;
@@ -109,7 +108,6 @@ function login(form) {
 			img.onload = function(){
 				snap_context.clearRect(0, 0, snap.width, snap.height);
 				Object.keys(facesReceived).forEach(function (key) {
-					console.log("drawing face:" + key);
 					var value = facesReceived[key];
 					snap_context.drawImage(value,0,startY);
 					startY = startY + 200;
