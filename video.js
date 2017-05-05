@@ -28,6 +28,8 @@ var participantBandwidths = [];
 var phone;
 var chatlogs = document.getElementById('chatlogs');
 
+var faceTrackerStarted =false;
+
 function login(form) {
 
 	phone = window.phone =
@@ -48,6 +50,11 @@ function login(form) {
 			//Here we possibly want to minimise the user's screen
 			//ctrl.addLocalStream(video);
 			//addLog("Logged in as " + form.username.value);
+			if(!faceTrackerStarted){
+				startFaceTracker();
+				faceTrackerStarted=true;
+			}
+
 			console.log("Logged in as " + form.username.value);
 	});
 	ctrl.receive(function(session){

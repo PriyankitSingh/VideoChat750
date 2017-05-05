@@ -1,8 +1,9 @@
 // Method to  extract user's faces from the video "myVideo" and adds the face to the faceCanvas.
 // This method can also track multiple faces at the same time.
-window.onload = function(){
+// window.onload = function(){
+function startFaceTracker(){
   var tracker = new tracking.ObjectTracker('face');
-  tracker.setInitialScale(4);
+  tracker.setInitialScale(10);
   tracker.setStepSize(2);
   tracker.setEdgesDensity(0.1);
 
@@ -18,12 +19,27 @@ window.onload = function(){
     faceCanvas.width = 0;
       // Loops through all faces found.
       event.data.forEach(function(rect) {
-        // create a new canvas for each face  
-      faceCanvas.width += 200;
-        ctx.drawImage(video, rect.x, rect.y, rect.width, rect.height, 
-                    0, 0, 200, 200);
-      startX = startX + 200;
-      startY = startY + 200;
+        // create a new canvas for each face 
+        console.log(rect); 
+        faceCanvas.width += 300;
+        var sx =rect.x;
+        if(sx>100){
+          sx= sx -100;
+        }else if(sx >50){
+          sx =sx -50;
+        }
+        var sy= rect.height;
+        if( sy >100){
+          sy=sy-100;
+        }else if(sy >50){
+          sy=sy-50;
+        }
+
+          ctx.drawImage(video, sx, sy, rect.width, rect.height, 
+                      0, 0, 300, 200);
+      
+      // startX = startX + 300;
+      // startY = startY + 200;
       });
     }
   });
