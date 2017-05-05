@@ -1,5 +1,4 @@
-// Last time updated at Feb 08, 2016, 08:32:23
-
+// Editted by : John Pham 
 // Latest file can be found here: https://cdn.webrtc-experiment.com/getStats.js
 // Muaz Khan     - www.MuazKhan.com
 // MIT License   - www.WebRTC-Experiment.com/licence
