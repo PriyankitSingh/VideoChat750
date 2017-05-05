@@ -1,3 +1,4 @@
+// This file contains code that finds the available bandwidth. Used to go to a lower bandwidth mode if needed.
 
 // This function measures the video availableBandwidth
 function invokeGetStats(peerConnection){
@@ -14,7 +15,7 @@ function invokeGetStats(peerConnection){
 
 }
 
-
+// Controls the bandwidth field in teh page.
 function setBandwidth(form){
 	bandwidth = form.bandwidth.value;
 	if(bandwidth.toLowerCase() == "high"){
