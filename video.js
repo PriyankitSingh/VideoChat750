@@ -63,13 +63,15 @@ function login(form) {
 			var listItem = document.createElement('li');
 			listItem.id= "callee" +session.number;
 			// Image element for low bandwidth
-			var imgElement = document.createElement('img');
-			imgElement.id="calleeImg"+session.number;
-			imgElement.src='';
-			imgElement.style.zIndex ="-1";
-			console.log(imgElement);
+			// var imgElement = document.createElement('img');
+			// imgElement.src='';
+			// imgElement.style.zIndex ="-1";
+			// var div = document.createElement('div');
+			// div.id="calleeImg"+session.number;
+
+			// div.appendChild(imgElement);
+			// listItem.appendChild(div);
 			listItem.appendChild(session.video);
-			listItem.appendChild(imgElement);
 			othervideos.appendChild(listItem);
 			//video_out.appendChild(session.video);
 			var sessionRTCPeerConnection = session.pc;
@@ -107,12 +109,6 @@ function login(form) {
 	phone.message(function(session,message){
 		//console.log("received image");
 		if(message.hasOwnProperty("image")){
-			// var img = document.getElementById("calleeImg" +session.number);
-			// if(img !=null){
-			// 	img.src = message.image.data;
-			// 	img.style.zIndex ="1";
-			// 	console.log(img);
-			// }
 			var img = new Image();
 			img.src = message.image.data;
 			facesReceived[session.number] = img;
