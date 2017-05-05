@@ -94,7 +94,13 @@ function login(form) {
 			sessionList.push(session);
 			var listItem = document.createElement('li');
 			listItem.id= "callee" +session.number;
+			// Image element for low bandwidth
+			var imgElement = document.createElement('img');
+			imgElement.id="calleeImg"+session.number;
+			imgElement.src="";
+			imgElement.style.zIndex ="-1";
 			listItem.appendChild(session.video);
+			listItem.appendChild(imgElement);
 			othervideos.appendChild(listItem);
 			//video_out.appendChild(session.video);
 			var sessionRTCPeerConnection = session.pc;
@@ -135,7 +141,7 @@ function login(form) {
 			var img = new Image();
 			img.src = message.image.data;
 			facesReceived[session.number] = img;
-			var height = 0
+			var height = 0;
 			Object.keys(facesReceived).forEach(function (key) {
 				height += 200;
 			})
