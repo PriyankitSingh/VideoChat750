@@ -1,4 +1,5 @@
-
+// Method to  extract user's faces from the video "myVideo" and adds the face to the faceCanvas.
+// This method can also track multiple faces at the same time.
 window.onload = function(){
   var tracker = new tracking.ObjectTracker('face');
   tracker.setInitialScale(4);
@@ -55,6 +56,7 @@ function send_img(){
 
 }
 
+// Changes the rate of sending images. 
 function change_send_img_rate(rate){
   interval = rate;
   if(send_loop_id == null){
