@@ -178,36 +178,114 @@ function startLocalStream(){
 
   var ctrl = window.ctrl = CONTROLLER(phone, get_xirsys_servers);
   ctrl.ready(function(){
-    // removed the form stuff
-    ctrl.addLocalStream(video);
-    console.log("Logged in as " + userName);
+      
+      //Here we possibly want to minimise the user's screen
+      //ctrl.addLocalStream(video);
+      //addLog("Logged in as " + form.username.value);
   });
   ctrl.receive(function(session){
-    session.connected(function(session){
-        video_out.appendChild(session.video);
-        addLog(session.number + " has joined.");
-        sessionList.push(session);
-        //Get the availableBandwidth for this session
-        //invokeGetStats is in the video.js script
-        var sessionRTCPeerConnection = session.pc;
-        invokeGetStats(sessionRTCPeerConnection);
+      session.connected(function(session){
+      sessionList.push(session);
+      var listItem = document.createElement('li');
+      listItem.id= "callee" +session.number;
+      listItem.appendChild(session.video);
+      othervideos.appendChild(listItem);
+      //video_out.appendChild(session.video);
+      var sessionRTCPeerConnection = session.pc;
+      invokeGetStats(sessionRTCPeerConnection);
+      //Adding button for kicking a session
+      //var kickbtn = document.createElement("button");
+      //video_out.appendChild(kickbtn);
+      //addLog(session.number + " has joined.");
+      console.log(session.number + " has joined.");
+      vidCount++; });
 
-        vidCount++; });
-    session.ended(function(session) {
-        ctrl.getVideoElement(session.number).remove();
-        addLog(session.number + " has left.");
-        //remove the session from the list of session when it ended
-        var index = sessionList.indexOf(session);
-        sessionList.splice(index,1);
-        vidCount--;});
+      session.ended(function(session) {
+      var index = sessionList.indexOf(session);
+      sessionList.splice(index,1);
+      ctrl.getVideoElement(session.number).remove();
+      var listItem = document.getElementById('callee'+session.number);
+      listItem.outerHTML ="";
+      delete listItem;
+      //addLog(session.number + " has left.");
+      console.log(session.number + " has left.");
+      vidCount--;});
   });
+
   ctrl.videoToggled(function(session, isEnabled){
     ctrl.getVideoElement(session.number).toggle(isEnabled);
-    addLog(session.number+": video enabled - " + isEnabled);
+    //addLog(session.number+": video enabled - " + isEnabled);
+    console.log(session.number+": video enabled - " + isEnabled);
   });
   ctrl.audioToggled(function(session, isEnabled){
     ctrl.getVideoElement(session.number).css("opacity",isEnabled ? 1 : 0.75);
-    addLog(session.number+": audio enabled - " + isEnabled);
+    //addLog(session.number+": audio enabled - " + isEnabled);
+    console.log(session.number+": audio enabled - " + isEnabled);
+  });
+
+  phone.message(function(session,message){
+    //console.log("received image");
+    if(message.hasOwnProperty("image")){
+      var img = new Image();
+      img.src = message.image.data;
+      facesReceived[session.number] = img;
+      var height = 0
+      Object.keys(facesReceived).forEach(function (key) {
+        height += 200;
+      })
+      snap.width = 200;
+      snap.height = height;
+      var startY = 0;
+      img.onload = function(){
+        snap_context.clearRect(0, 0, snap.width, snap.height);
+        Object.keys(facesReceived).forEach(function (key) {
+          console.log("drawing face:" + key);
+          var value = facesReceived[key];
+          snap_context.drawImage(value,0,startY);
+          startY = startY + 200;
+        })
+        snap_out.innerHTML = "";
+        var snap_img = new Image();
+        snap_img.src = snap.toDataURL("image/jpeg");
+        snap_out.appendChild(snap_img);
+      }
+    }else if(message.hasOwnProperty("text")){
+      var friendDiv = document.createElement('div');
+        friendDiv.className ="chat friend";
+        var friendPhoto = document.createElement('div');
+        friendPhoto.className ="photo";
+        var image = document.createElement('img');
+        image.src="icons/minion2.png";
+        friendPhoto.appendChild(image);
+        var text = document.createElement('p');
+        text.className="message";
+        text.innerHTML=message.text;
+        friendDiv.appendChild(friendPhoto);
+        friendDiv.appendChild(text);
+        chatlogs.appendChild(friendDiv);
+        chatlogs.scrollTop=chatlogs.scrollHeight;
+    }else if (message.hasOwnProperty("toggleBandwidth")){
+      console.log("Toggle Bandwidth:" + message.toggleBandwidth);
+      //Code for user to execute when they recieve toggle message   
+      bandwidth = message.toggleBandwidth;
+      if(bandwidth.toLowerCase() == "high"){
+        if(send_loop_id == null){
+          //do nothing
+        }else{
+          toggle_to_high();
+        }
+        
+      }else if(bandwidth.toLowerCase() == "low"){
+        if(send_loop_id == null){
+          toggle_to_low();
+        }else{
+          //do nothing
+        }
+      }else{
+        alert("Only High or Low accepted not: "  + bandwidth);
+      }
+      
+    }
   });
   return false;
 }
