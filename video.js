@@ -11,8 +11,7 @@ var bandwidth = "low";
 var sessionList = [];
 
 var video = document.getElementById('myVideo');
-var faceCanvas = document.createElement('canvas');
-//var faceCanvas = document.getElementById('faceOnly');
+var faceCanvas = document.createElement('canvas')
 var ctx = faceCanvas.getContext('2d');
 
 //In ms, rate at which we send pictures
@@ -47,14 +46,10 @@ function login(form) {
 	ctrl.ready(function(){
 			form.username.style.background="#55ff5b";
 			form.login_submit.hidden="true";
-			//Here we possibly want to minimise the user's screen
-			//ctrl.addLocalStream(video);
-			//addLog("Logged in as " + form.username.value);
 			if(!faceTrackerStarted){
 				startFaceTracker();
 				faceTrackerStarted=true;
 			}
-
 			console.log("Logged in as " + form.username.value);
 	});
 	ctrl.receive(function(session){
@@ -62,24 +57,10 @@ function login(form) {
 			sessionList.push(session);
 			var listItem = document.createElement('li');
 			listItem.id= "callee" +session.number;
-			// Image element for low bandwidth
-			// var imgElement = document.createElement('img');
-			// imgElement.src='';
-			// imgElement.style.zIndex ="-1";
-			// var div = document.createElement('div');
-			// div.id="calleeImg"+session.number;
-
-			// div.appendChild(imgElement);
-			// listItem.appendChild(div);
 			listItem.appendChild(session.video);
 			othervideos.appendChild(listItem);
-			//video_out.appendChild(session.video);
 			var sessionRTCPeerConnection = session.pc;
 			invokeGetStats(sessionRTCPeerConnection);
-			//Adding button for kicking a session
-			//var kickbtn = document.createElement("button");
-			//video_out.appendChild(kickbtn);
-			//addLog(session.number + " has joined.");
 			console.log(session.number + " has joined.");
 			vidCount++; });
 
@@ -90,7 +71,6 @@ function login(form) {
 			var listItem = document.getElementById('callee'+session.number);
 			listItem.outerHTML ="";
 			delete listItem;
-			//addLog(session.number + " has left.");
 			console.log(session.number + " has left.");
 			vidCount--;});
 	});
@@ -230,7 +210,6 @@ function getVideo(number){
 
 function get_xirsys_servers() {
     var servers;
-    // TODO: this post request giving error
     $.ajax({
         type: 'POST',
         url: 'https://service.xirsys.com/ice',
