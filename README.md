@@ -14,11 +14,10 @@ You can also type a name and login using that id. You can call people by typing 
 1. In a terminal navigate to the project folder.
 
 2.Create an http server by running the command:
-In Python 2:
-"python -m SimpleHTTPServer"
 
-In Python 3:
-"python -m http.server"
+ -In Python 2: "python -m SimpleHTTPServer"
+
+ -In Python 3: "python -m http.server"
 
 3. In chrome go to "localhost:8000", by typing it in the address bar.
 
@@ -33,6 +32,7 @@ In Python 3:
 8. Switch between high and low bandwidth by typing either "high" or "low" in the "Set your bandwidth(High/Low)" text box and then clicking "set".
 
 
+# Other
 
 GitLab URL:
  - http://cerczeiprd01.its.auckland.ac.nz/
