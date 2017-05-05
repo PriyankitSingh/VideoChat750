@@ -1,3 +1,7 @@
+// This file contains all the code used for calling other users. PubNub and WebRTC were used for communication.
+// Multiple users can be called at the same time.
+
+/* Global Variables */
 var video_out = document.getElementById("vid-box");
 var othervideos = document.getElementById("othercallervideos");
 //var vid_thumb = document.getElementById("vid-thumb");
@@ -29,6 +33,7 @@ var chatlogs = document.getElementById('chatlogs');
 
 var faceTrackerStarted =false;
 
+// Sets up a connection with pubnub which can later be used to call people
 function login(form) {
 
 	phone = window.phone =
@@ -42,6 +47,7 @@ function login(form) {
 	    //subscribe_key : 'sub-c-0369f0f0-0bc7-11e7-9734-02ee2ddab7fe',
 	});
 
+	// Controller is used to control the phone. It sets up the video and audio streams 
 	var ctrl = window.ctrl = CONTROLLER(phone, get_xirsys_servers);
 	ctrl.ready(function(){
 			form.username.style.background="#55ff5b";
@@ -86,6 +92,7 @@ function login(form) {
 		console.log(session.number+": audio enabled - " + isEnabled);
 	});
 
+	// Manage the messages recieved by the phone.
 	phone.message(function(session,message){
 		//console.log("received image");
 		if(message.hasOwnProperty("image")){
@@ -153,6 +160,8 @@ function login(form) {
 	return false;
 }
 
+// Used to make a call to some other users. The user has to be online.
+// Gives an alert if the other user is not online.
 function makeCall(form){
 	if (!window.phone) alert("Login First!");
 	var num = form.number.value;
@@ -169,6 +178,7 @@ function makeCall(form){
 	return false;
 }
 
+// Same as makeCall but takes a string as input rather than form.
 function makeCallFacebook(friend){
 	console.log('in makeCallFacebook ' + friend);
 	if (!window.phone) alert("Login First!");
@@ -181,18 +191,20 @@ function makeCallFacebook(friend){
 	return false;
 }
 
-
+// Used to mute the call from our side. Other user is not muted.
 function mute(){
 	var audio = ctrl.toggleAudio();
 	if (!audio) $("#mute").html("Unmute");
 	else $("#mute").html("Mute");
 }
 
+// Used to end the connection. Also acts as logout function.
 function end(){
 	console.log('ending stream');
 	ctrl.hangup();
 }
 
+// Pauses the sending of video. Does not pause other user's video.
 function pause(){
 	var video = ctrl.toggleVideo();
 	if (!video) $('#pause').html('Unpause');
@@ -240,7 +252,7 @@ function errWrap(fxn, form){
 	}
 }
 
-
+// Sends chat messages to the other users. Gets the message on messageBox and sends it.
 function sendMessage(){
 	var  tbox = document.getElementById("messageBox");
 	var message=  tbox.value;
