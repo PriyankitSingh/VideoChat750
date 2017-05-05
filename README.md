@@ -19,9 +19,9 @@ You can also type a name and login using that id. You can call people by typing 
 
  - In Python 3: "python -m http.server"
 
-3. In chrome go to "localhost:8000", by typing it in the address bar.
+3. In chrome go to "localhost:8000/index.html", by typing it in the address bar.
 
-4. Open another tab and go to "localhost:8000".
+4. Open another tab and go to "localhost:8000/index.html".
 
 5. If you are logged into facebook leave by clicking "End". Find this button by hovering over the bottom of the main video (which is showing a video of yourself).
 
