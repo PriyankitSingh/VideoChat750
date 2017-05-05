@@ -1,34 +1,66 @@
-window.onload = function() {
-  console.log("print");
-  var video = document.getElementById('myVideo');
-  var canvas = document.getElementById('canvas');
-  var context = canvas.getContext('2d');
-  var faceCanvas = document.getElementById('faceOnly');
-  var ctx = canvas.getContext('2d');
 
+window.onload = function(){
   var tracker = new tracking.ObjectTracker('face');
   tracker.setInitialScale(4);
   tracker.setStepSize(2);
   tracker.setEdgesDensity(0.1);
 
   tracking.track('#myVideo', tracker, { camera: true }); // tracker with a camera.
-
   tracker.on('track', function(event) {
-    context.clearRect(0, 0, canvas.width, canvas.height);
-
-    event.data.forEach(function(rect) {
-      ctx.drawImage(video, rect.x, rect.y, 400, 300, 0, 0, rect.width, rect.height);
-      // context.strokeStyle = '#a64ceb';
-      // context.strokeRect(rect.x, rect.y, rect.width, rect.height);
-      // context.font = '11px Helvetica';
-      // context.fillStyle = "#fff";
-      // context.fillText('x: ' + rect.x + 'px', rect.x + rect.width + 5, rect.y + 11);
-      // context.fillText('y: ' + rect.y + 'px', rect.x + rect.width + 5, rect.y + 22);
-    });
+    if(event.data.length === 0){
+      //console.log('no faces found');
+    } else {
+      ctx.clearRect(0, 0, faceCanvas.width, faceCanvas.height);
+    var startX = 0;
+    var startY = 0;
+    faceCanvas.height = 200;
+    faceCanvas.width = 0;
+      // Loops through all faces found.
+      event.data.forEach(function(rect) {
+        // create a new canvas for each face  
+      faceCanvas.width += 200;
+        ctx.drawImage(video, rect.x, rect.y, rect.width, rect.height, 
+                    0, 0, 200, 200);
+      startX = startX + 200;
+      startY = startY + 200;
+      });
+    }
   });
-
-  var gui = new dat.GUI();
-  gui.add(tracker, 'edgesDensity', 0.1, 0.5).step(0.01);
-  gui.add(tracker, 'initialScale', 1.0, 10.0).step(0.1);
-  gui.add(tracker, 'stepSize', 1, 5).step(0.1);
 };
+
+// send images to other people
+function send_img_loop(){
+  if(send_loop_id == null){
+    send_loop_id = setInterval(send_img, interval);
+  }else{
+    return;
+  }
+}
+
+// stop sending images to other people
+function end_send_loop(){
+  if(send_loop_id == null){
+    return;
+  }else{
+    clearInterval(send_loop_id);
+    send_loop_id = null;
+  }
+}
+
+function send_img(){
+
+  var pic = phone.snap();
+  pic.data = faceCanvas.toDataURL("image/jpeg");
+  phone.send({ image : pic });
+
+}
+
+function change_send_img_rate(rate){
+  interval = rate;
+  if(send_loop_id == null){
+    return;
+  }else{
+    end_send_loop();
+    send_img_loop();
+  } 
+}
