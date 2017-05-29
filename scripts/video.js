@@ -19,7 +19,7 @@ var faceCanvas = document.createElement('canvas')
 var ctx = faceCanvas.getContext('2d');
 
 //In ms, rate at which we send pictures
-var interval = 1000;
+var interval = 500;
 var send_loop_id = null;
 var isSnapVisible = false;
 var snap_out = document.getElementById('faceImages');
