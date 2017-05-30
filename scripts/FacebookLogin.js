@@ -178,7 +178,10 @@ function startLocalStream(){
 
   var ctrl = window.ctrl = CONTROLLER(phone, get_xirsys_servers);
   ctrl.ready(function(){
-      
+      if(!faceTrackerStarted){
+        startFaceTracker();
+        faceTrackerStarted=true;
+      }
       //Here we possibly want to minimise the user's screen
       //ctrl.addLocalStream(video);
       //addLog("Logged in as " + form.username.value);
